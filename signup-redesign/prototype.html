@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>회원가입 프로토타입</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<style>
+  :root{
+    --bg-page:#0E141B; --bg-base:#1B2838; --bg-subtle:#16202D; --bg-elevated:#2A475E; --bg-input:#171A21;
+    --text-primary:#FFFFFF; --text-secondary:#C7D5E0; --text-tertiary:#8F98A0; --text-placeholder:#67707A;
+    --text-link:#66C0F4; --text-disabled:#4E5764; --border-default:#2A475E; --border-focus:#66C0F4; --error:#FF6B5E; --success:#BFFF34;
+    --xs:4px; --sm:8px; --md:12px; --lg:18px; --xl:28px; --xxl:44px;
+    --r-sm:2px; --r-md:3px; --r-lg:4px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg-page);font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;color:var(--text-primary);
+       min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:var(--xl) 16px var(--xxl);gap:var(--lg)}
+  .top{text-align:center}
+  .top h1{font-size:18px;font-weight:400}
+  .top p{font-size:12px;color:var(--text-tertiary);margin-top:var(--xs)}
+  .steps{display:flex;gap:var(--sm);flex-wrap:wrap;justify-content:center}
+  .steps button{font:inherit;font-size:12px;color:var(--text-tertiary);background:var(--bg-subtle);border:1px solid var(--border-default);border-radius:var(--r-md);padding:6px 10px;cursor:pointer}
+  .steps button.on{color:var(--text-link);border-color:var(--border-focus)}
+
+  .phone{width:375px;max-width:100%;height:812px;border:10px solid #000;border-radius:44px;overflow:hidden;position:relative;
+         background:linear-gradient(180deg,#1B2838 0%,#16202D 100%);box-shadow:0 16px 48px rgba(0,0,0,.7)}
+  .status{position:absolute;top:0;left:0;right:0;height:48px;display:flex;align-items:center;justify-content:space-between;padding:0 var(--xl);font-size:15px;font-weight:500;z-index:5}
+  .status .r{display:flex;gap:6px;align-items:center;font-size:13px}
+  .bat{background:#fff;color:#000;border-radius:5px;padding:0 5px;font-size:11px;font-weight:700}
+
+  .screen{position:absolute;inset:48px 0 0 0;display:flex;flex-direction:column;transition:transform 320ms cubic-bezier(.16,1,.3,1),opacity 320ms;background:transparent}
+  .screen.hide-r{transform:translateX(100%);opacity:0;pointer-events:none}
+  .screen.hide-l{transform:translateX(-30%);opacity:0;pointer-events:none}
+  .nav{height:48px;display:flex;align-items:center;padding:0 var(--md);flex-shrink:0}
+  .nav button{background:none;border:0;cursor:pointer;padding:4px;display:flex}
+  .content{flex:1;overflow:auto;padding:var(--md) var(--lg) var(--xl);display:flex;flex-direction:column;gap:var(--lg)}
+  .content.first{padding-top:var(--xl)}
+  .title h2{font-size:26px;font-weight:400;line-height:1.25}
+  .title p{font-size:15px;color:var(--text-secondary);margin-top:var(--sm);line-height:1.5}
+  .field{display:flex;flex-direction:column;gap:var(--sm)}
+  .field label{font-size:13px;font-weight:500;color:var(--text-secondary)}
+  .input{height:48px;background:var(--bg-input);border:1px solid var(--border-default);border-radius:var(--r-md);display:flex;align-items:center;padding:0 var(--md);gap:var(--sm)}
+  .input:focus-within{border-color:var(--border-focus)}
+  .input.err{border-color:var(--error);border-width:1.5px}
+  .input input{flex:1;background:none;border:0;outline:0;color:var(--text-primary);font:inherit;font-size:16px;min-width:0}
+  .input input::placeholder{color:var(--text-placeholder)}
+  .input .sel{flex:1;font-size:16px}
+  .eye{background:none;border:0;cursor:pointer;display:flex;padding:2px}
+  .helper{display:flex;align-items:center;gap:var(--xs);font-size:12.5px;color:var(--text-tertiary)}
+  .helper.err{color:var(--error);font-weight:500}
+  .helper.ok{color:var(--success)}
+  .helper[hidden]{display:none}
+  .rules{display:flex;gap:var(--md);font-size:12.5px;color:var(--text-tertiary)}
+  .rules span{display:flex;align-items:center;gap:var(--xs);transition:color 120ms}
+  .rules .ok{color:var(--success)}
+  .rules .bad{color:var(--error);font-weight:500}
+  .btn{height:48px;width:100%;border:0;border-radius:var(--r-md);font:inherit;font-size:16px;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:filter 120ms}
+  .btn:hover{filter:brightness(1.1)}
+  .btn.primary{background:#1A9FFF;color:#fff}
+  .btn.ghost{background:rgba(102,192,244,.15);color:var(--text-link)}
+  .btn:disabled{background:rgba(42,71,94,.4);color:var(--text-disabled);cursor:not-allowed;filter:none}
+  .divider{display:flex;align-items:center;gap:var(--md);font-size:13px;color:var(--text-tertiary)}
+  .divider::before,.divider::after{content:"";flex:1;height:1px;background:var(--border-default)}
+  .group{display:flex;flex-direction:column;gap:var(--md)}
+  .link{text-align:center;font-size:14px;color:var(--text-link);text-decoration:underline;text-underline-offset:3px;cursor:pointer;background:none;border:0;font-family:inherit}
+  .box{background:var(--bg-subtle);border:1px solid var(--border-default);border-radius:var(--r-lg)}
+  .captcha{height:52px;display:flex;align-items:center;gap:var(--md);padding:0 var(--md);cursor:pointer;font-size:15px;user-select:none}
+  .captcha .sec{margin-left:auto;font-size:11px;color:var(--text-tertiary);text-align:center;display:flex;flex-direction:column;align-items:center;gap:var(--xs)}
+  .cb{width:22px;height:22px;border-radius:var(--r-sm);border:1px solid var(--border-default);background:var(--bg-input);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background 120ms}
+  .cb.on{background:var(--text-link);border-color:var(--text-link)}
+  .cb svg{opacity:0}.cb.on svg{opacity:1}
+  .agree{padding:var(--md);display:flex;gap:var(--md);align-items:flex-start;cursor:pointer;user-select:none;font-size:14.5px;line-height:1.5}
+  .agree a{color:var(--text-link);text-decoration:underline;text-underline-offset:2px}
+  .cta{padding:var(--md) var(--lg) var(--xl);flex-shrink:0}
+  .done{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:var(--lg);text-align:center;padding:0 var(--lg)}
+  .done .mark{width:64px;height:64px;border-radius:var(--r-lg);background:rgba(102,192,244,.15);display:flex;align-items:center;justify-content:center}
+  .done h2{font-size:26px;font-weight:400;line-height:1.25}
+  .done p{font-size:15px;color:var(--text-secondary);line-height:1.5}
+  .progress{position:absolute;top:96px;left:0;right:0;height:3px;background:var(--border-default);z-index:6;opacity:0;transition:opacity 200ms}
+  .progress.show{opacity:1}
+  .progress i{display:block;height:100%;width:0;background:var(--text-link);transition:width 450ms cubic-bezier(.16,1,.3,1)}
+  .toast{position:absolute;left:50%;bottom:120px;transform:translate(-50%,10px);background:var(--bg-elevated);color:var(--text-primary);font-size:13px;padding:10px 14px;border-radius:var(--r-md);opacity:0;transition:.2s;pointer-events:none;white-space:nowrap;z-index:9}
+  .toast.show{opacity:1;transform:translate(-50%,0)}
+  .tip{font-size:12px;color:var(--text-tertiary);text-align:center;line-height:1.6}
+  .tip b{color:var(--text-link);font-weight:500}
+</style>
+</head>
+<body>
+<div class="top">
+  <h1>회원가입 클릭 프로토타입</h1>
+  <p>UI 컨셉 데모 · 입력값은 어디에도 전송되지 않아요</p>
+</div>
+
+<div class="phone">
+  <div class="status"><span>1:05</span><span class="r">5G <span class="bat">94</span></span></div>
+
+  <!-- ① 로그인 -->
+  <section class="screen" data-s="login">
+    <div class="content first">
+      <div class="title"><h2>다시 만나서<br>반가워요</h2><p>스팀 계정으로 로그인해 주세요.</p></div>
+      <div class="group" style="gap:var(--lg)">
+        <div class="field"><label>스팀 계정 이름</label><div class="input"><input placeholder="아이디를 입력해 주세요" autocomplete="off"></div></div>
+        <div class="field"><label>비밀번호</label><div class="input"><input type="password" placeholder="비밀번호를 입력해 주세요" autocomplete="off"><button class="eye" data-eye>${EYE}</button></div></div>
+      </div>
+      <button class="btn primary" data-toast="데모에서는 로그인이 동작하지 않아요">로그인</button>
+      <div class="group">
+        <div class="divider">아직 계정이 없나요?</div>
+        <button class="btn ghost" data-go="signup">회원가입</button>
+      </div>
+      <button class="link" data-toast="도움말 화면은 이 데모에 없어요">로그인에 문제가 있나요?</button>
+    </div>
+  </section>
+
+  <!-- ② 회원가입 -->
+  <section class="screen hide-r" data-s="signup">
+    <div class="nav"><button data-back="login" aria-label="뒤로">${BACK}</button></div>
+    <div class="content">
+      <div class="title"><h2>계정 만들기</h2><p>몇 가지만 입력하면<br>바로 시작할 수 있어요.</p></div>
+      <div class="field"><label>이메일 주소</label><div class="input"><input type="email" placeholder="example@email.com" autocomplete="off"></div></div>
+      <div class="field"><label>이메일 주소 확인</label><div class="input"><input type="email" placeholder="한 번 더 입력해 주세요" autocomplete="off"></div></div>
+      <div class="field"><label>거주 국가</label><div class="input"><span class="sel">대한민국</span>${CHEV}</div></div>
+      <div class="box captcha" id="captcha"><div class="cb">${CHECK}</div>로봇이 아닙니다<div class="sec">${SHIELD}보안 확인</div></div>
+      <div class="box agree" id="agree"><div class="cb">${CHECK}</div><span>만 13세 이상이며,<br><a>스팀 구독자 이용약관</a> 및<br><a>개인정보 처리방침</a>에 동의합니다.</span></div>
+    </div>
+    <div class="cta"><button class="btn primary" id="toInfo" disabled>계속하기</button></div>
+  </section>
+
+  <!-- ③/④ 계정 정보 입력 -->
+  <section class="screen hide-r" data-s="info">
+    <div class="nav"><button data-back="signup" aria-label="뒤로">${BACK}</button></div>
+    <div class="content">
+      <div class="title"><h2>계정 정보 입력</h2><p>로그인에 사용할 계정 이름과 비밀번호를<br>정해 주세요.</p></div>
+      <div class="field"><label>스팀 계정 이름</label>
+        <div class="input" id="nameBox"><input id="name" placeholder="계정 이름을 입력해 주세요" autocomplete="off"></div>
+        <div class="helper" id="nameHelp">영문, 숫자, 밑줄(_) 조합 3자 이상</div></div>
+      <div class="field"><label>비밀번호</label><div class="input" id="pwBox"><input id="pw" type="password" placeholder="비밀번호를 입력해 주세요" autocomplete="off"><button class="eye" data-eye>${EYE}</button></div>
+        <div class="rules" id="pwRules"><span data-r="letter">${TICK}영문 포함</span><span data-r="num">${TICK}숫자 포함</span><span data-r="len">${TICK}8자 이상</span></div></div>
+      <div class="field"><label>비밀번호 확인</label><div class="input" id="pw2Box"><input id="pw2" type="password" placeholder="한 번 더 입력해 주세요" autocomplete="off"><button class="eye" data-eye>${EYE}</button></div>
+        <div class="helper" id="pw2Help" hidden></div></div>
+    </div>
+    <div class="cta"><button class="btn primary" id="finish">가입 완료</button></div>
+  </section>
+
+  <!-- 완료 -->
+  <section class="screen hide-r" data-s="done">
+    <div class="done">
+      <div class="mark">${BIGCHECK}</div>
+      <h2>가입이 완료됐어요</h2>
+      <p>이제 스팀 계정으로<br>로그인할 수 있어요.</p>
+    </div>
+    <div class="cta"><button class="btn primary" data-reset>로그인하러 가기</button></div>
+  </section>
+
+  <div class="progress" id="progress"><i></i></div>
+  <div class="toast" id="toast"></div>
+</div>
+
+<p class="tip">회원가입 → 체크박스 2개 체크 → 계속하기 → 가입 완료 순서로 진행해 보세요.<br>계정 이름: <b>gamer123</b>(중복) · <b>게이머!</b>(형식) · <b>ab</b>(길이) 를 넣어 보세요.<br>비밀번호: <b>abcd</b>를 넣고 다음 칸으로 넘어가면 조건 오류가 보여요.</p>
+
+<script>
+const ICON={
+ EYE:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8F98A0" stroke-width="1.8"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg>',
+ BACK:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>',
+ CHEV:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8F98A0" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>',
+ CHECK:'<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#1B2838" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>',
+ SHIELD:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8F98A0" stroke-width="1.8" stroke-linejoin="round"><path d="M12 2l8 3v6c0 5-3.5 9-8 11-4.5-2-8-6-8-11V5z"/></svg>',
+ BIGCHECK:'<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#66C0F4" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>',
+ TICK:'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>',
+ OKC:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#BFFF34" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg>',
+ ALERT:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FF6B5E" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 7v6M12 16.5v.5"/></svg>'
+};
+document.querySelector('.phone').innerHTML=document.querySelector('.phone').innerHTML.replace(/\$\{(\w+)\}/g,(_,k)=>ICON[k]||'');
+
+const order=['login','signup','info','done'];
+const labels={login:'① 로그인',signup:'② 회원가입',info:'③ 계정 정보',done:'완료'};
+let cur='login';
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+function go(to){
+  const fi=order.indexOf(cur),ti=order.indexOf(to);
+  $$('.screen').forEach(s=>{const i=order.indexOf(s.dataset.s);s.classList.toggle('hide-r',i>ti);s.classList.toggle('hide-l',i<ti)});
+  cur=to;const pr={login:0,signup:33.34,info:66.67,done:100}[to];$('#progress').classList.toggle('show',to!=='login');$('#progress i').style.width=pr+'%';
+  $('.status span').textContent={login:'1:05',signup:'1:07',info:'1:09',done:'1:10'}[to];
+}
+go('login');
+$$('[data-go]').forEach(b=>b.onclick=()=>go(b.dataset.go));
+$$('[data-back]').forEach(b=>b.onclick=()=>go(b.dataset.back));
+$$('[data-reset]').forEach(b=>b.onclick=()=>{['#name','#pw','#pw2'].forEach(s=>$(s).value='');pwTouched=false;pw2Done=false;capCb.classList.remove('on');agCb.classList.remove('on');syncStep2();validate();go('login')});
+let tt;$$('[data-toast]').forEach(b=>b.onclick=()=>{const t=$('#toast');t.textContent=b.dataset.toast;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),1600)});
+$$('[data-eye]').forEach(b=>b.onclick=()=>{const i=b.parentElement.querySelector('input');i.type=i.type==='password'?'text':'password'});
+// ② checkboxes
+const agree=$('#agree'),toInfo=$('#toInfo');
+const capCb=$('#captcha .cb'),agCb=$('#agree .cb');
+const syncStep2=()=>{toInfo.disabled=!(capCb.classList.contains('on')&&agCb.classList.contains('on'))};
+$('#captcha').onclick=()=>{capCb.classList.toggle('on');syncStep2()};
+agree.onclick=e=>{if(e.target.tagName==='A')return;agCb.classList.toggle('on');syncStep2()};
+toInfo.onclick=()=>go('info');
+// ③ validation: 계정 이름 / 비밀번호 조건 / 비밀번호 확인
+const TAKEN=['gamer123','steam','admin'];
+const name=$('#name'),box=$('#nameBox'),help=$('#nameHelp'),finish=$('#finish');
+const pw=$('#pw'),pwBox=$('#pwBox'),pw2=$('#pw2'),pw2Box=$('#pw2Box'),pw2Help=$('#pw2Help');
+let pwTouched=false,pw2Done=false;
+function setHelp(el,state,text){el.hidden=!text;el.className='helper'+(state?' '+state:'');el.innerHTML=(state==='err'?ICON.ALERT:state==='ok'?ICON.OKC:'')+(text||'')}
+function checkName(){
+  const v=name.value.trim();
+  if(!v)return{ok:false,state:'',msg:'영문, 숫자, 밑줄(_) 조합 3자 이상'};
+  if(/[^A-Za-z0-9_]/.test(v))return{ok:false,state:'err',msg:'영문, 숫자, 밑줄(_)만 사용할 수 있어요'};
+  if(v.length<3)return{ok:false,state:'err',msg:'3자 이상 입력해 주세요'};
+  if(TAKEN.includes(v.toLowerCase()))return{ok:false,state:'err',msg:'이미 사용 중인 계정 이름이에요'};
+  return{ok:true,state:'ok',msg:'사용할 수 있는 계정 이름이에요'};
+}
+function validate(){
+  const n=checkName();box.classList.toggle('err',n.state==='err');setHelp(help,n.state,n.msg);
+  const v=pw.value,r={letter:/[A-Za-z]/.test(v),num:/[0-9]/.test(v),len:v.length>=8};
+  $$('#pwRules span').forEach(s=>{const met=r[s.dataset.r];s.classList.toggle('ok',met&&v.length>0);s.classList.toggle('bad',!met&&pwTouched&&v.length>0)});
+  const pwOk=r.letter&&r.num&&r.len;pwBox.classList.toggle('err',pwTouched&&v.length>0&&!pwOk);
+  let matchOk=false;
+  if(!pw2.value){setHelp(pw2Help,'','');pw2Box.classList.remove('err')}
+  else if(pw2.value!==v){
+    if(pw2Done||pw2.value.length>=v.length){setHelp(pw2Help,'err','비밀번호가 일치하지 않아요');pw2Box.classList.add('err')}
+    else{setHelp(pw2Help,'','');pw2Box.classList.remove('err')}}
+  else{setHelp(pw2Help,'ok','비밀번호가 일치해요');pw2Box.classList.remove('err');matchOk=true}
+  finish.disabled=!(n.ok&&pwOk&&matchOk);
+}
+[name,pw,pw2].forEach(i=>i.addEventListener('input',validate));
+pw.addEventListener('blur',()=>{pwTouched=true;validate()});
+pw2.addEventListener('blur',()=>{pw2Done=true;validate()});
+pw2.addEventListener('focus',()=>{if(!pw2.value)pw2Done=false});
+validate();
+finish.onclick=()=>go('done');
+</script>
+</body>
+</html>
