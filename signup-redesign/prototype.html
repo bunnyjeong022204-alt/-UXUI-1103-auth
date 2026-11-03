@@ -84,6 +84,34 @@
   .toast.show{opacity:1;transform:translate(-50%,0)}
   .tip{font-size:12px;color:var(--text-tertiary);text-align:center;line-height:1.6}
   .tip b{color:var(--text-link);font-weight:500}
+
+  /* ---- Hover / press interactions ---- */
+  .btn{transition:transform 120ms cubic-bezier(.16,1,.3,1),box-shadow 160ms,background 120ms,filter 120ms}
+  .btn:hover:not(:disabled){transform:translateY(-1px)}
+  .btn.primary:hover:not(:disabled){filter:brightness(1.12);box-shadow:0 0 0 2px rgba(102,192,244,.5),0 6px 20px rgba(0,0,0,.55)}
+  .btn.ghost:hover:not(:disabled){background:rgba(102,192,244,.25);filter:none;box-shadow:0 0 0 1px rgba(102,192,244,.35)}
+  .btn:active:not(:disabled){transform:translateY(0) scale(.98);filter:brightness(.95);box-shadow:none}
+  .input{transition:border-color 120ms,background 120ms}
+  .input:hover:not(:focus-within):not(.err){border-color:#4E5764;background:#1A1E26}
+  .box{transition:border-color 120ms,background 120ms}
+  .captcha:hover,.agree:hover{border-color:#4E5764;background:#192433}
+  .cb{transition:background 120ms,border-color 120ms}
+  .captcha:hover .cb:not(.on),.agree:hover .cb:not(.on){border-color:var(--border-focus);box-shadow:0 0 0 2px rgba(102,192,244,.2)}
+  .cb.pop{animation:pop 220ms cubic-bezier(.16,1,.3,1)}
+  @keyframes pop{45%{transform:scale(1.18)}}
+  .nav button{border-radius:var(--r-lg);transition:background 120ms}
+  .nav button:hover{background:rgba(102,192,244,.15)}
+  .nav button:active{background:rgba(102,192,244,.25)}
+  .eye{border-radius:var(--r-sm);transition:background 120ms}
+  .eye:hover{background:rgba(102,192,244,.15)}
+  .eye:hover svg{stroke:#C7D5E0}
+  .link,.agree a{transition:color 120ms}
+  .link:hover,.agree a:hover{color:#fff}
+  .input.shake{animation:shake 300ms}
+  @keyframes shake{20%,60%{transform:translateX(-4px)}40%,80%{transform:translateX(4px)}}
+  .sound{font:inherit;font-size:12px;color:var(--text-link);background:rgba(102,192,244,.15);border:0;border-radius:var(--r-md);padding:6px 12px;cursor:pointer;display:flex;align-items:center;gap:6px;transition:background 120ms}
+  .sound:hover{background:rgba(102,192,244,.25)}
+  .sound.off{color:var(--text-tertiary);background:var(--bg-subtle)}
 </style>
 </head>
 <body>
@@ -91,6 +119,7 @@
   <h1>회원가입 클릭 프로토타입</h1>
   <p>UI 컨셉 데모 · 입력값은 어디에도 전송되지 않아요</p>
 </div>
+<button class="sound" id="soundBtn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14"/></svg><span>사운드 켜짐</span></button>
 
 <div class="phone">
   <div class="status"><span>1:05</span><span class="r">5G <span class="bat">94</span></span></div>
@@ -156,8 +185,31 @@
   <div class="toast" id="toast"></div>
 </div>
 
-<p class="tip">회원가입 → 체크박스 2개 체크 → 계속하기 → 가입 완료 순서로 진행해 보세요.<br>계정 이름: <b>gamer123</b>(중복) · <b>게이머!</b>(형식) · <b>ab</b>(길이) 를 넣어 보세요.<br>비밀번호: <b>abcd</b>를 넣고 다음 칸으로 넘어가면 조건 오류가 보여요.</p>
+<p class="tip">회원가입 → 체크박스 2개 체크 → 계속하기 → 가입 완료 순서로 진행해 보세요.<br>계정 이름: <b>gamer123</b>(중복) · <b>게이머!</b>(형식) · <b>ab</b>(길이) 를 넣어 보세요.<br>비밀번호: <b>abcd</b>를 넣고 다음 칸으로 넘어가면 조건 오류가 보여요.<br>브라우저 정책상 화면을 한 번 클릭한 뒤부터 소리가 나요.</p>
 
+<script>
+// ---- Steam-style UI sounds (Web Audio로 합성: 짧고 낮고 부드럽게) ----
+const SFX=(()=>{let ctx,master,on=true;
+ function init(){if(!ctx){const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;ctx=new AC();master=ctx.createGain();master.gain.value=.7;
+   const lp=ctx.createBiquadFilter();lp.type='lowpass';lp.frequency.value=4200;master.connect(lp);lp.connect(ctx.destination)}
+  if(ctx.state==='suspended')ctx.resume()}
+ function tone(f,{t=0,dur=.08,type='sine',gain=.06,to=null,attack=.004}={}){if(!ctx||!on)return;const n=ctx.currentTime+t,o=ctx.createOscillator(),g=ctx.createGain();
+  o.type=type;o.frequency.setValueAtTime(f,n);if(to)o.frequency.exponentialRampToValueAtTime(to,n+dur);
+  g.gain.setValueAtTime(0,n);g.gain.linearRampToValueAtTime(gain,n+attack);g.gain.exponentialRampToValueAtTime(.0001,n+dur);o.connect(g);g.connect(master);o.start(n);o.stop(n+dur+.03)}
+ function swoosh(from,to,{dur=.26,gain=.04}={}){if(!ctx||!on)return;const n=ctx.currentTime,len=Math.floor(ctx.sampleRate*dur),buf=ctx.createBuffer(1,len,ctx.sampleRate),d=buf.getChannelData(0);
+  for(let i=0;i<len;i++)d[i]=Math.random()*2-1;const src=ctx.createBufferSource();src.buffer=buf;const bp=ctx.createBiquadFilter();bp.type='bandpass';bp.Q.value=1.4;
+  bp.frequency.setValueAtTime(from,n);bp.frequency.exponentialRampToValueAtTime(to,n+dur);const g=ctx.createGain();g.gain.setValueAtTime(0,n);g.gain.linearRampToValueAtTime(gain,n+dur*.35);g.gain.exponentialRampToValueAtTime(.0001,n+dur);
+  src.connect(bp);bp.connect(g);g.connect(master);src.start(n);src.stop(n+dur)}
+ return{init,toggle(){on=!on;return on},
+  hover(){tone(1250,{dur:.03,type:'triangle',gain:.014})},                         // 아주 작은 틱
+  press(){tone(230,{dur:.09,to:150,gain:.12});tone(2100,{dur:.018,type:'triangle',gain:.015})}, // 부드러운 '톡'
+  tick(){tone(980,{dur:.04,type:'triangle',gain:.025})},
+  check(v){v?(tone(660,{dur:.07,gain:.04}),tone(990,{t:.055,dur:.13,gain:.038})):(tone(700,{dur:.06,gain:.032}),tone(495,{t:.05,dur:.1,gain:.03}))},
+  page(back){swoosh(back?1500:420,back?420:1500);tone(back?392:523.25,{t:.05,dur:.2,gain:.022})},
+  error(){tone(311,{dur:.11,type:'triangle',gain:.05});tone(233,{t:.09,dur:.2,type:'triangle',gain:.05})},
+  ok(){tone(880,{dur:.09,gain:.03});tone(1318.5,{t:.05,dur:.16,gain:.026})},
+  success(){[523.25,659.25,783.99,1046.5].forEach((f,i)=>tone(f,{t:i*.075,dur:1.1,gain:.035,attack:.012}))}}})();
+</script>
 <script>
 const ICON={
  EYE:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8F98A0" stroke-width="1.8"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg>',
@@ -176,24 +228,26 @@ const order=['login','signup','info','done'];
 const labels={login:'① 로그인',signup:'② 회원가입',info:'③ 계정 정보',done:'완료'};
 let cur='login';
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
-function go(to){
+function go(to,silent){
   const fi=order.indexOf(cur),ti=order.indexOf(to);
+  if(!silent&&fi!==ti){to==='done'?SFX.success():SFX.page(ti<fi)}
   $$('.screen').forEach(s=>{const i=order.indexOf(s.dataset.s);s.classList.toggle('hide-r',i>ti);s.classList.toggle('hide-l',i<ti)});
   cur=to;const pr={login:0,signup:33.34,info:66.67,done:100}[to];$('#progress').classList.toggle('show',to!=='login');$('#progress i').style.width=pr+'%';
   $('.status span').textContent={login:'1:05',signup:'1:07',info:'1:09',done:'1:10'}[to];
 }
-go('login');
+go('login',true);
 $$('[data-go]').forEach(b=>b.onclick=()=>go(b.dataset.go));
 $$('[data-back]').forEach(b=>b.onclick=()=>go(b.dataset.back));
-$$('[data-reset]').forEach(b=>b.onclick=()=>{['#name','#pw','#pw2'].forEach(s=>$(s).value='');pwTouched=false;pw2Done=false;capCb.classList.remove('on');agCb.classList.remove('on');syncStep2();validate();go('login')});
+$$('[data-reset]').forEach(b=>b.onclick=()=>{['#name','#pw','#pw2'].forEach(s=>$(s).value='');pwTouched=false;pw2Done=false;capCb.classList.remove('on');agCb.classList.remove('on');syncStep2();silent=true;validate();silent=false;go('login')});
 let tt;$$('[data-toast]').forEach(b=>b.onclick=()=>{const t=$('#toast');t.textContent=b.dataset.toast;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),1600)});
-$$('[data-eye]').forEach(b=>b.onclick=()=>{const i=b.parentElement.querySelector('input');i.type=i.type==='password'?'text':'password'});
+$$('[data-eye]').forEach(b=>b.onclick=()=>{const i=b.parentElement.querySelector('input');i.type=i.type==='password'?'text':'password';SFX.tick()});
 // ② checkboxes
 const agree=$('#agree'),toInfo=$('#toInfo');
 const capCb=$('#captcha .cb'),agCb=$('#agree .cb');
 const syncStep2=()=>{toInfo.disabled=!(capCb.classList.contains('on')&&agCb.classList.contains('on'))};
-$('#captcha').onclick=()=>{capCb.classList.toggle('on');syncStep2()};
-agree.onclick=e=>{if(e.target.tagName==='A')return;agCb.classList.toggle('on');syncStep2()};
+const flip=cb=>{const v=cb.classList.toggle('on');cb.classList.remove('pop');void cb.offsetWidth;cb.classList.add('pop');SFX.check(v);syncStep2()};
+$('#captcha').onclick=()=>flip(capCb);
+agree.onclick=e=>{if(e.target.tagName==='A'){SFX.tick();return}flip(agCb)};
 toInfo.onclick=()=>go('info');
 // ③ validation: 계정 이름 / 비밀번호 조건 / 비밀번호 확인
 const TAKEN=['gamer123','steam','admin'];
@@ -209,7 +263,7 @@ function checkName(){
   if(TAKEN.includes(v.toLowerCase()))return{ok:false,state:'err',msg:'이미 사용 중인 계정 이름이에요'};
   return{ok:true,state:'ok',msg:'사용할 수 있는 계정 이름이에요'};
 }
-function validate(){
+function _validate(){
   const n=checkName();box.classList.toggle('err',n.state==='err');setHelp(help,n.state,n.msg);
   const v=pw.value,r={letter:/[A-Za-z]/.test(v),num:/[0-9]/.test(v),len:v.length>=8};
   $$('#pwRules span').forEach(s=>{const met=r[s.dataset.r];s.classList.toggle('ok',met&&v.length>0);s.classList.toggle('bad',!met&&pwTouched&&v.length>0)});
@@ -222,12 +276,26 @@ function validate(){
   else{setHelp(pw2Help,'ok','비밀번호가 일치해요');pw2Box.classList.remove('err');matchOk=true}
   finish.disabled=!(n.ok&&pwOk&&matchOk);
 }
+let silent=false;
+const snap=()=>({nErr:box.classList.contains('err'),pwErr:pwBox.classList.contains('err'),p2Err:pw2Box.classList.contains('err'),nOk:help.classList.contains('ok'),p2Ok:pw2Help.classList.contains('ok'),rules:$$('#pwRules .ok').length});
+const shake=el=>{el.classList.remove('shake');void el.offsetWidth;el.classList.add('shake')};
+function validate(){const a=snap();_validate();if(silent)return;const b=snap();
+  const errs=[[!a.nErr&&b.nErr,box],[!a.pwErr&&b.pwErr,pwBox],[!a.p2Err&&b.p2Err,pw2Box]].filter(x=>x[0]);
+  if(errs.length){SFX.error();errs.forEach(x=>shake(x[1]))}
+  else if((!a.nOk&&b.nOk)||(!a.p2Ok&&b.p2Ok)||(a.rules<3&&b.rules===3))SFX.ok()}
 [name,pw,pw2].forEach(i=>i.addEventListener('input',validate));
 pw.addEventListener('blur',()=>{pwTouched=true;validate()});
 pw2.addEventListener('blur',()=>{pw2Done=true;validate()});
 pw2.addEventListener('focus',()=>{if(!pw2.value)pw2Done=false});
-validate();
+silent=true;validate();silent=false;
 finish.onclick=()=>go('done');
+
+// hover: 인터랙티브 요소에 들어갈 때만 한 번
+const HOV='.btn:not(:disabled),.nav button,.eye,.link,.captcha,.agree,.input,.sound';let lastHov=null,lastT=0;
+document.addEventListener('pointerover',e=>{const el=e.target.closest(HOV);if(el&&el!==lastHov){const now=performance.now();if(now-lastT>45){SFX.hover();lastT=now}}lastHov=el});
+// press: 버튼 누를 때 부드러운 '톡'
+document.addEventListener('pointerdown',e=>{SFX.init();const b=e.target.closest('.btn,.nav button,.link');if(b&&!b.disabled)SFX.press()},true);
+const sb=$('#soundBtn');sb.onclick=()=>{SFX.init();const v=SFX.toggle();sb.classList.toggle('off',!v);sb.querySelector('span').textContent=v?'사운드 켜짐':'사운드 꺼짐';if(v)SFX.ok()};
 </script>
 </body>
 </html>
