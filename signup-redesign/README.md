@@ -1,20 +1,15 @@
-# 스팀 회원가입 리디자인
+# 회원가입 리디자인
 
-`steam.md` 디자인 시스템을 따라 스팀 모바일 회원가입 흐름을 한국어 UI로 다시 디자인한 작업이에요.
+## 현재 버전: 유저버스(UserVerse)
+- 루트 `index.html` — 유저버스 클릭 프로토타입 (배포 시 첫 화면)
+- 루트 `userverse.md` — 유저버스 디자인 시스템 (Y2K 핫핑크 · 픽셀 폰트 · 게임 HUD 입력)
+  - 이메일: `sisbhjj@gmail.com`(이미 가입) · `comeback@gmail.com`(탈퇴 후 재가입) · 형식 오류는 입력을 마친 뒤 말풍선
+  - 닉네임: 🎲 추천 버튼, 조건 퀘스트 칩(2~12자 · 한글·영문·숫자만 · 중복 아님), `gamer123` 중복
+  - 입력칸마다 ▶ 커서 · OK!/ERR 뱃지 · +10 XP · 8비트 사운드, 24칸 XP 게이지
 
-## 파일
-- 루트의 `index.html` — 클릭 프로토타입 (배포 시 첫 화면)
-  - 로그인 → 회원가입 → 계정 정보 입력 → 완료
-  - 체크박스 2개를 모두 켜야 '계속하기' 활성화
-  - 계정 이름 검증: `gamer123`(중복), `게이머!`(형식), `ab`(길이)
-  - 비밀번호 조건 체크리스트(영문·숫자·8자 이상), 확인 칸은 다 입력한 뒤 불일치 안내
-  - 상단 게이지로 진행도 표시
-  - 호버·누름 인터랙션과 Web Audio로 합성한 UI 사운드 (화면을 한 번 클릭한 뒤부터 재생, 상단 버튼으로 끄기)
-- `first-draft.html` — 첫 번째 정적 시안
-
-## Figma
-- https://www.figma.com/design/0nSOQgQt9lehVFdoPMO4Ay
-  - Screens 페이지: ①~⑥ 화면
-  - Design System 페이지: 컴포넌트, Steam Tokens 변수(컬러·간격·모서리)
+## 이전 버전: 스팀 리디자인
+- `steam-prototype.html` — steam.md 기준 마지막 프로토타입
+- `first-draft.html` — 첫 정적 시안
+- Figma: https://www.figma.com/design/0nSOQgQt9lehVFdoPMO4Ay
 
 > UI 컨셉 목업이며 입력값은 어디에도 전송되지 않아요.
