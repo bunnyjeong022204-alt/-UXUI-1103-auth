@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>회원가입 리디자인 시안</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/static/pretendard.min.css">
+<style>
+  :root{
+    --page:#0b0e13; --bg:#171d25; --surface:#212a36; --surface2:#2a3544;
+    --line:#334155; --text:#f1f5f9; --sub:#94a3b8; --muted:#64748b;
+    --accent:#1a9fff; --accent-press:#0d86e0; --danger:#ff6b6b;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--page);font-family:Pretendard,-apple-system,"Apple SD Gothic Neo",sans-serif;color:var(--text);
+       min-height:100vh;padding:40px 16px;letter-spacing:-0.02em}
+  header.top{text-align:center;margin-bottom:32px}
+  header.top h1{font-size:22px;font-weight:700}
+  header.top p{color:var(--sub);font-size:14px;margin-top:6px}
+  .row{display:flex;gap:40px;justify-content:center;flex-wrap:wrap}
+  .col{display:flex;flex-direction:column;align-items:center;gap:14px}
+  .label{font-size:13px;color:var(--sub);font-weight:600}
+  .phone{width:375px;max-width:100%;height:780px;background:var(--bg);border-radius:44px;border:10px solid #000;
+         position:relative;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+  .status{height:48px;display:flex;align-items:center;justify-content:space-between;padding:0 26px;font-size:15px;font-weight:600;flex-shrink:0}
+  .status small{display:block;font-size:11px;color:var(--sub);font-weight:500;margin-top:-2px}
+  .status .r{display:flex;gap:6px;align-items:center;font-size:13px}
+  .bat{background:#fff;color:#000;border-radius:5px;padding:0 5px;font-size:11px;font-weight:700}
+  .content{flex:1;overflow:auto;padding:16px 24px 24px}
+  h2{font-size:26px;font-weight:700;line-height:1.35}
+  .desc{color:var(--sub);font-size:15px;margin-top:8px;line-height:1.5}
+  .field{margin-top:22px}
+  .field .fl{font-size:13px;color:var(--sub);font-weight:600;margin-bottom:8px}
+  .input{height:52px;background:var(--surface);border:1px solid transparent;border-radius:12px;display:flex;align-items:center;
+         justify-content:space-between;padding:0 16px;font-size:16px;color:var(--muted)}
+  .input.focus{border-color:var(--accent);background:var(--surface2)}
+  .input.filled{color:var(--text)}
+  .btn{height:54px;border-radius:14px;display:flex;align-items:center;justify-content:center;gap:6px;font-size:17px;font-weight:700}
+  .btn.primary{background:var(--accent);color:#fff}
+  .btn.ghost{background:var(--surface2);color:var(--text)}
+  .divider{display:flex;align-items:center;gap:12px;color:var(--muted);font-size:13px;margin:28px 0 14px}
+  .divider::before,.divider::after{content:"";flex:1;height:1px;background:var(--line)}
+  .hint{display:flex;align-items:center;justify-content:center;gap:5px;font-size:12.5px;color:var(--sub);margin-top:10px}
+  .link{text-align:center;color:var(--sub);font-size:14px;margin-top:22px;text-decoration:underline;text-underline-offset:3px}
+  .webchip{display:inline-flex;align-items:center;gap:6px;background:rgba(26,159,255,.12);color:#7cc4ff;font-size:12.5px;
+           font-weight:600;padding:6px 10px;border-radius:999px;margin-bottom:18px}
+  .captcha{margin-top:22px;height:64px;background:var(--surface);border-radius:12px;display:flex;align-items:center;gap:12px;padding:0 16px;font-size:15px}
+  .cbox{width:24px;height:24px;border:2px solid var(--muted);border-radius:6px;flex-shrink:0}
+  .captcha .shield{margin-left:auto;color:var(--muted);font-size:11px;text-align:center}
+  .agree{margin-top:22px;background:var(--surface);border-radius:14px;padding:6px 16px}
+  .ag{display:flex;align-items:center;gap:12px;padding:13px 0;font-size:14.5px}
+  .ag.all{font-weight:700;font-size:16px;border-bottom:1px solid var(--line);padding:16px 0}
+  .chk{width:22px;height:22px;border-radius:50%;background:var(--surface2);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .chk.on{background:var(--accent)}
+  .req{color:var(--accent);font-weight:600;margin-right:2px}
+  .ag .more{margin-left:auto;color:var(--muted);font-size:13px}
+  .cta{padding:12px 24px 8px;flex-shrink:0;background:var(--bg)}
+  .safari{height:78px;background:#1f1f22;border-top:1px solid #2c2c30;display:flex;align-items:flex-start;gap:12px;padding:10px 16px 0;flex-shrink:0}
+  .url{flex:1;height:40px;background:#2c2c30;border-radius:12px;display:flex;align-items:center;justify-content:center;gap:6px;font-size:14px;color:#d4d4d8}
+  .sbtn{width:40px;height:40px;border-radius:50%;background:#2c2c30;display:flex;align-items:center;justify-content:center;color:#d4d4d8;font-size:16px}
+  .notes{max-width:375px;font-size:13px;color:var(--sub);line-height:1.6}
+  .notes b{color:var(--text)}
+  svg{flex-shrink:0}
+</style>
+</head>
+<body>
+<header class="top">
+  <h1>회원가입 플로우 리디자인 시안</h1>
+  <p>UI 컨셉 목업 · 실제 동작하지 않는 화면입니다</p>
+</header>
+
+<div class="row">
+  <!-- 화면 1 -->
+  <div class="col">
+    <div class="label">① 로그인 + 회원가입 진입</div>
+    <div class="phone">
+      <div class="status"><div>1:05<small>◀ Safari</small></div><div class="r">5G <span class="bat">94</span></div></div>
+      <div class="content">
+        <div class="webchip">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg>
+          모바일 앱으로 로그인 중
+        </div>
+        <h2>다시 만나서<br>반가워요 👋</h2>
+        <p class="desc">스팀 계정으로 로그인해 주세요.</p>
+
+        <div class="field">
+          <div class="fl">스팀 계정 이름</div>
+          <div class="input focus">아이디를 입력해 주세요</div>
+        </div>
+        <div class="field">
+          <div class="fl">비밀번호</div>
+          <div class="input">비밀번호를 입력해 주세요
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg>
+          </div>
+        </div>
+
+        <div class="btn primary" style="margin-top:28px">로그인</div>
+
+        <div class="divider">아직 계정이 없나요?</div>
+        <div class="btn ghost">
+          회원가입
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M7 17L17 7M9 7h8v8"/></svg>
+        </div>
+        <div class="hint">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/></svg>
+          웹 브라우저로 이동해서 진행돼요
+        </div>
+
+        <div class="link">로그인에 문제가 있나요?</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 화면 2 -->
+  <div class="col">
+    <div class="label">② 웹 회원가입 (상단 메뉴 제거)</div>
+    <div class="phone">
+      <div class="status"><div>1:07<small>◀ Steam</small></div><div class="r">5G <span class="bat">94</span></div></div>
+      <div class="content">
+        <h2>계정 만들기</h2>
+        <p class="desc">몇 가지만 입력하면 바로 시작할 수 있어요.</p>
+
+        <div class="field">
+          <div class="fl">이메일 주소</div>
+          <div class="input">example@email.com</div>
+        </div>
+        <div class="field">
+          <div class="fl">이메일 주소 확인</div>
+          <div class="input">한 번 더 입력해 주세요</div>
+        </div>
+        <div class="field">
+          <div class="fl">거주 국가</div>
+          <div class="input filled">대한민국
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+          </div>
+        </div>
+
+        <div class="captcha"><div class="cbox"></div>로봇이 아닙니다<div class="shield">🛡️<br>보안 확인</div></div>
+
+        <div class="agree">
+          <div class="ag all"><div class="chk on"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5"><path d="M5 12l5 5 9-10"/></svg></div>약관 전체 동의</div>
+          <div class="ag"><div class="chk on"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5"><path d="M5 12l5 5 9-10"/></svg></div><span><span class="req">[필수]</span>만 13세 이상입니다</span></div>
+          <div class="ag"><div class="chk on"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5"><path d="M5 12l5 5 9-10"/></svg></div><span><span class="req">[필수]</span>스팀 구독자 이용약관</span><span class="more">보기 ›</span></div>
+          <div class="ag"><div class="chk on"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5"><path d="M5 12l5 5 9-10"/></svg></div><span><span class="req">[필수]</span>개인정보 처리방침</span><span class="more">보기 ›</span></div>
+        </div>
+      </div>
+      <div class="cta"><div class="btn primary">동의하고 계속하기</div></div>
+      <div class="safari">
+        <div class="sbtn">‹</div>
+        <div class="url">🔒 store.steampowered.com</div>
+        <div class="sbtn">⋯</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row" style="margin-top:28px">
+  <div class="notes">
+    <b>바꾼 점</b><br>
+    · 로그인 버튼 바로 아래 ‘회원가입’ 배치, ↗ 아이콘과 “웹 브라우저로 이동” 안내로 웹 전환을 예고<br>
+    · 두 번째 화면의 햄버거·검색·카테고리 메뉴 제거, 입력에만 집중<br>
+    · 한국 앱 관례 반영: 친근한 존댓말 문구, 큰 둥근 버튼, 라벨+플레이스홀더, ‘약관 전체 동의’와 [필수] 표기, 하단 고정 CTA<br>
+    · 거주 국가는 ‘대한민국’ 기본값
+  </div>
+</div>
+</body>
+</html>
