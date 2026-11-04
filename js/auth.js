@@ -25,7 +25,7 @@
         clientPromise = new Promise((resolve, reject) => {
           if (window.supabase && window.supabase.createClient) return resolve(window.supabase.createClient(cfg.supabaseUrl, cfg.supabaseAnonKey));
           const s = document.createElement("script");
-          s.src = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js";
+          s.src = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.50.0/dist/umd/supabase.js";
           s.onload = () => resolve(window.supabase.createClient(cfg.supabaseUrl, cfg.supabaseAnonKey));
           s.onerror = () => reject(new Error("supabase-js load failed"));
           document.head.appendChild(s);

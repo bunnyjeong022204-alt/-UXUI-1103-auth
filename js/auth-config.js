@@ -3,6 +3,6 @@
 // anon key 는 브라우저에 공개돼도 되는 키예요 (권한은 RLS와 SQL 함수가 막아요).
 // 둘 중 하나라도 비어 있으면 브라우저 안에서만 동작하는 DEMO 모드로 실행돼요.
 window.USERVERSE_AUTH = {
-  supabaseUrl: "",
-  supabaseAnonKey: "",
+  supabaseUrl: "https://waocgoysbicjruiookpx.supabase.co",
+  supabaseAnonKey: "sb_publishable_WiWt1XRxrPkYdMTX1f6voA_Pq71xlcR", // publishable key (예전 anon key 자리)
 };
