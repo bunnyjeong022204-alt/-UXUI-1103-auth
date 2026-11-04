@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>유저버스 회원가입 발표</title>
+    <script src="assets/gsap.min.js"></script>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; background: #0D0D0D; }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; }
+      #ground { position: absolute; inset: 0; background: #0D0D0D; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="142.3" data-width="1920" data-height="1080">
+    <div id="ground"></div>
+    <div id="hook" data-composition-id="hook" data-composition-src="compositions/hook.html" data-start="0.0" data-duration="29.6" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+    <div id="problem" data-composition-id="problem" data-composition-src="compositions/problem.html" data-start="29.6" data-duration="17.6" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+    <div id="principle" data-composition-id="principle" data-composition-src="compositions/principle.html" data-start="47.2" data-duration="11.8" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+    <div id="demo" data-composition-id="demo" data-composition-src="compositions/demo.html" data-start="59.0" data-duration="31" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+    <div id="brand" data-composition-id="brand" data-composition-src="compositions/brand.html" data-start="90.0" data-duration="12.3" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+    <div id="backend" data-composition-id="backend" data-composition-src="compositions/backend.html" data-start="102.3" data-duration="16" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+    <div id="closing" data-composition-id="closing" data-composition-src="compositions/closing.html" data-start="118.3" data-duration="24" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+    <audio id="bgm-tense" class="clip" src="assets/audio/tension.mp3" data-start="0" data-duration="2.85" data-track-index="3" data-volume="0.45"></audio>
+    <audio id="bgm-main" class="clip" src="assets/audio/bgm.mp3" data-start="22.0" data-duration="96.3" data-track-index="3" data-volume="0.16"></audio>
+    <audio id="bgm-end" class="clip" src="assets/audio/ending.mp3" data-start="118.3" data-duration="24" data-fade-out="3" data-track-index="3" data-volume="0.2"></audio>
+    <audio id="sfx-punch" class="clip" src="assets/audio/punch.wav" data-start="2.8" data-duration="0.6" data-track-index="4" data-volume="0.7"></audio>
+    <audio id="sfx-pop" class="clip" src="assets/audio/pop.wav" data-start="6.6" data-duration="0.4" data-track-index="4" data-volume="0.5"></audio>
+    <audio id="sfx-whoosh" class="clip" src="assets/audio/whoosh.wav" data-start="18.1" data-duration="0.6" data-track-index="4" data-volume="0.3"></audio>
+    <audio id="sfx-err1" class="clip" src="assets/audio/error.wav" data-start="30.0" data-duration="0.4" data-track-index="4" data-volume="0.3"></audio>
+    <audio id="sfx-err2" class="clip" src="assets/audio/error.wav" data-start="32.0" data-duration="0.4" data-track-index="4" data-volume="0.3"></audio>
+    <audio id="sfx-err3" class="clip" src="assets/audio/error.wav" data-start="34.1" data-duration="0.4" data-track-index="4" data-volume="0.3"></audio>
+    <audio id="sfx-coin1" class="clip" src="assets/audio/coin.wav" data-start="56.5" data-duration="0.5" data-track-index="4" data-volume="0.35"></audio>
+    <audio id="sfx-coin2" class="clip" src="assets/audio/coin.wav" data-start="95.6" data-duration="0.5" data-track-index="4" data-volume="0.35"></audio>
+    <audio id="sfx-cough" class="clip" src="assets/audio/cough.wav" data-start="22.2" data-duration="1.0" data-track-index="4" data-volume="0.9"></audio>
+    <audio id="sfx-fanfare" class="clip" src="assets/audio/fanfare.wav" data-start="133.6" data-duration="1.6" data-track-index="4" data-volume="0.35"></audio>
+    <audio id="vo-hook0" class="clip" src="assets/audio/narration.mp3" data-start="0.5" data-duration="3.74" data-track-index="2" data-volume="1.0"></audio>
+    <audio id="vo-pass_jeoyo" class="clip" src="assets/audio/narration2.mp3" data-start="9.6" data-duration="0.63" data-track-index="2" data-volume="1.0"></audio>
+    <audio id="vo-crew_hm" class="clip" src="assets/audio/narration2.mp3" data-start="11.8" data-duration="0.59" data-media-start="5.0" data-track-index="2" data-volume="1.0"></audio>
+    <audio id="vo-crew_talt" class="clip" src="assets/audio/narration2.mp3" data-start="12.5" data-duration="1.35" data-media-start="6.14" data-track-index="2" data-volume="1.0"></audio>
+    <audio id="vo-pass_ane" class="clip" src="assets/audio/narration2.mp3" data-start="14.2" data-duration="2.59" data-media-start="0.95" data-track-index="2" data-volume="1.0"></audio>
+    <audio id="vo-crew_anio" class="clip" src="assets/audio/narration2.mp3" data-start="16.9" data-duration="1.17" data-media-start="7.99" data-track-index="2" data-volume="1.0"></audio>
+    <audio id="vo-pass_mwoji" class="clip" src="assets/audio/narration2.mp3" data-start="20.6" data-duration="0.56" data-media-start="4.0" data-track-index="2" data-volume="1.0"></audio>
+    <audio id="vo-hook4" class="clip" src="assets/audio/narration.mp3" data-start="23.6" data-duration="2.15" data-media-start="10.87" data-track-index="2" data-volume="1.0"></audio>
+    <audio id="vo-hook5" class="clip" src="assets/audio/narration.mp3" data-start="25.9" data-duration="3.19" data-media-start="13.27" data-track-index="2" data-volume="1.0"></audio>
+    <audio id="vo-pb6" class="clip" src="assets/audio/narration.mp3" data-start="30.0" data-duration="1.78" data-media-start="17.04" data-track-index="2" data-volume="1.0"></audio>
+    <audio id="vo-pb7" class="clip" src="assets/audio/narration.mp3" data-start="32.0" data-duration="1.86" data-media-start="19.19" data-track-index="2" data-volume="1.0"></audio>
+    <audio id="vo-pb8" class="clip" src="assets/audio/narration.mp3" data-start="34.1" data-duration="2.82" data-media-start="21.44" data-track-index="2" data-volume="1.0"></audio>
+    <audio id="vo-n1" class="clip" src="assets/audio/narration2.mp3" data-start="37.2" data-duration="6.24" data-media-start="10.52" data-track-index="2" data-volume="1.0"></audio>
+    <audio id="vo-pb15b" class="clip" src="assets/audio/narration3.mp3" data-start="43.9" data-duration="2.88" data-media-start="0.05" data-track-index="2" data-volume="1.0"></audio>
+    <audio id="vo-pr17" class="clip" src="assets/audio/narration.mp3" data-start="47.5" data-duration="2.64" data-media-start="44.72" data-track-index="2" data-volume="1.0"></audio>
+    <audio id="vo-pr18" class="clip" src="assets/audio/narration.mp3" data-start="50.2" data-duration="1.92" data-media-start="47.82" data-track-index="2" data-volume="1.0"></audio>
+    <audio id="vo-n2" class="clip" src="assets/audio/narration2.mp3" data-start="52.5" data-duration="5.88" data-media-start="17.59" data-track-index="2" data-volume="1.0"></audio>
+    <audio id="vo-dm21" class="clip" src="assets/audio/narration.mp3" data-start="59.3" data-duration="3.24" data-media-start="58.46" data-track-index="2" data-volume="1.0"></audio>
+    <audio id="vo-dm22" class="clip" src="assets/audio/narration.mp3" data-start="62.6" data-duration="1.15" data-media-start="62.14" data-track-index="2" data-volume="1.0"></audio>
+    <audio id="vo-dm23" class="clip" src="assets/audio/narration.mp3" data-start="63.8" data-duration="4.33" data-media-start="63.59" data-track-index="2" data-volume="1.0"></audio>
+    <audio id="vo-dm25" class="clip" src="assets/audio/narration.mp3" data-start="68.5" data-duration="4.15" data-media-start="70.43" data-track-index="2" data-volume="1.0"></audio>
+    <audio id="vo-dm26" class="clip" src="assets/audio/narration.mp3" data-start="72.8" data-duration="1.58" data-media-start="74.9" data-track-index="2" data-volume="1.0"></audio>
+    <audio id="vo-n3" class="clip" src="assets/audio/narration2.mp3" data-start="74.8" data-duration="6.15" data-media-start="24.24" data-track-index="2" data-volume="1.0"></audio>
+    <audio id="vo-dm30" class="clip" src="assets/audio/narration.mp3" data-start="81.3" data-duration="2.7" data-media-start="87.1" data-track-index="2" data-volume="1.0"></audio>
+    <audio id="vo-n4" class="clip" src="assets/audio/narration2.mp3" data-start="84.4" data-duration="5.31" data-media-start="31.31" data-track-index="2" data-volume="1.0"></audio>
+    <audio id="vo-n5a" class="clip" src="assets/audio/narration2.mp3" data-start="90.2" data-duration="4.26" data-media-start="37.49" data-track-index="2" data-volume="1.0"></audio>
+    <audio id="vo-n5b" class="clip" src="assets/audio/narration2.mp3" data-start="94.6" data-duration="4.1" data-media-start="42.55" data-track-index="2" data-volume="1.0"></audio>
+    <audio id="vo-br37" class="clip" src="assets/audio/narration.mp3" data-start="99.6" data-duration="2.26" data-media-start="106.99" data-track-index="2" data-volume="1.0"></audio>
+    <audio id="vo-be39" class="clip" src="assets/audio/narration.mp3" data-start="102.5" data-duration="1.85" data-media-start="112.07" data-track-index="2" data-volume="1.0"></audio>
+    <audio id="vo-be40" class="clip" src="assets/audio/narration.mp3" data-start="104.6" data-duration="2.79" data-media-start="114.25" data-track-index="2" data-volume="1.0"></audio>
+    <audio id="vo-n6a" class="clip" src="assets/audio/narration2.mp3" data-start="107.7" data-duration="5.19" data-media-start="47.49" data-track-index="2" data-volume="1.0"></audio>
+    <audio id="vo-n6b" class="clip" src="assets/audio/narration2.mp3" data-start="113.2" data-duration="4.77" data-media-start="53.35" data-track-index="2" data-volume="1.0"></audio>
+    <audio id="vo-cl53" class="clip" src="assets/audio/narration.mp3" data-start="118.7" data-duration="3.65" data-media-start="149.46" data-track-index="2" data-volume="1.0"></audio>
+    <audio id="vo-pass_jeoyo" class="clip" src="assets/audio/narration2.mp3" data-start="123.1" data-duration="0.63" data-track-index="2" data-volume="1.0"></audio>
+    <audio id="vo-cl55" class="clip" src="assets/audio/narration.mp3" data-start="124.8" data-duration="1.14" data-media-start="154.32" data-track-index="2" data-volume="1.0"></audio>
+    <audio id="vo-cl56" class="clip" src="assets/audio/narration.mp3" data-start="126.1" data-duration="1.78" data-media-start="155.7" data-track-index="2" data-volume="1.0"></audio>
+    <audio id="vo-cl57" class="clip" src="assets/audio/narration.mp3" data-start="129.1" data-duration="2.31" data-media-start="157.84" data-track-index="2" data-volume="1.0"></audio>
+    <audio id="vo-cl58" class="clip" src="assets/audio/narration.mp3" data-start="131.5" data-duration="1.9" data-media-start="160.47" data-track-index="2" data-volume="1.0"></audio>
+    <audio id="vo-cl59" class="clip" src="assets/audio/narration.mp3" data-start="133.6" data-duration="1.16" data-media-start="162.7" data-track-index="2" data-volume="1.0"></audio>
+    <audio id="vo-cl60" class="clip" src="assets/audio/narration.mp3" data-start="135.0" data-duration="0.89" data-media-start="164.18" data-track-index="2" data-volume="1.0"></audio>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = gsap.timeline({ paused: true });
+    </script>
+  </body>
+</html>
