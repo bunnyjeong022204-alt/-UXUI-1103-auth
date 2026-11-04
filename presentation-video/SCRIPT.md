@@ -124,4 +124,4 @@ Nov 4, 2026 · @ㄴㅍㅍㄴㅍ
 
 **컷 5** · 크레딧 (음악만)
 
-> THANKS TO · 한경IT · 배동훈 강사 · 진영빈 · 클로드 AI · ELEVENLABS
+> THANKS TO · 한경IT · 배동훈 강사 · 진영빈 · 클로드 AI · ELEVENLABS · 2026년 11월 04일
