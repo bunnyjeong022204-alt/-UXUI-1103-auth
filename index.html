@@ -4,29 +4,29 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>유저버스 회원가입</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/galmuri@latest/dist/galmuri.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap">
 <style>
+  /* DOS 픽셀 폰트 — github.com/hurss/fonts (MIT, © Damheo Lee) 한글·영문 서브셋 */
+  @font-face{font-family:"DOSGothic";src:url("fonts/DOSGothic.woff") format("woff");font-display:swap}
+  @font-face{font-family:"DOSIyagi";src:url("fonts/DOSIyagiBoldface.woff") format("woff");font-display:swap}
   :root{
     --bg-page:#0D0D0D; --bg-base:#1C1C1C; --bg-subtle:#151515; --bg-elevated:#2A2A2A; --bg-input:#121212;
     --pink-300:#FF7AB8; --pink:#FF2D95; --pink-700:#C4006B; --pink-tint:rgba(255,45,149,.14);
     --text-primary:#FFFFFF; --text-secondary:#D6D6D6; --text-tertiary:#9A9A9A; --text-placeholder:#666; --text-disabled:#4D4D4D;
     --border-default:#3A3A3A; --border-strong:#5A5A5A;
     --error:#FF6A3D; --success:#4DFFC3;
-    --font-px-en:"Silkscreen","Galmuri11",monospace;
-    --font-px-ko:"Galmuri11","Galmuri9","Noto Sans KR",sans-serif;
-    --font-px-title:"Galmuri14","Galmuri11","Noto Sans KR",sans-serif;
+    --font-px-en:"DOSIyagi","DOSGothic",monospace;
+    --font-px-ko:"DOSGothic","Noto Sans KR",sans-serif;
+    --font-px-title:"DOSIyagi","DOSGothic",sans-serif;
     --xs:4px; --sm:8px; --md:12px; --lg:20px; --xl:28px;
     --ease:cubic-bezier(.16,1,.3,1);
-    --px:polygon(4px 0,calc(100% - 4px) 0,calc(100% - 4px) 2px,calc(100% - 2px) 2px,calc(100% - 2px) 4px,100% 4px,100% calc(100% - 4px),calc(100% - 2px) calc(100% - 4px),calc(100% - 2px) calc(100% - 2px),calc(100% - 4px) calc(100% - 2px),calc(100% - 4px) 100%,4px 100%,4px calc(100% - 2px),2px calc(100% - 2px),2px calc(100% - 4px),0 calc(100% - 4px),0 4px,2px 4px,2px 2px,4px 2px);
   }
   *{box-sizing:border-box;margin:0;padding:0}
   body{background:var(--bg-page);font-family:var(--font-px-ko);color:var(--text-primary);min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:var(--xl) 16px 44px;gap:var(--lg);-webkit-font-smoothing:none}
   .top{text-align:center}
-  .top h1{font-family:var(--font-px-en);font-size:20px;letter-spacing:.04em}
+  .top h1{font-family:var(--font-px-en);font-size:24px;letter-spacing:.04em}
   .top h1 em{font-style:normal;color:var(--pink)}
   .top p{font-size:12px;color:var(--text-tertiary);margin-top:var(--xs)}
-  .sound{font:inherit;font-size:12px;color:var(--pink);background:transparent;border:2px solid var(--pink);clip-path:var(--px);padding:6px 14px;cursor:pointer;display:flex;align-items:center;gap:6px}
+  .sound{font:inherit;font-size:12px;color:var(--pink);background:transparent;border:2px solid var(--pink);padding:6px 14px;cursor:pointer;display:flex;align-items:center;gap:6px}
   .sound:hover{background:var(--pink-tint)}
   .sound.off{color:var(--text-tertiary);border-color:var(--border-default)}
 
@@ -34,7 +34,7 @@
   .phone{width:375px;max-width:100%;height:812px;border:10px solid #000;border-radius:44px;overflow:hidden;position:relative;background:var(--bg-base);box-shadow:0 0 0 1px #2A2A2A,0 16px 48px rgba(0,0,0,.7)}
   .status{position:absolute;top:0;left:0;right:0;height:48px;display:flex;align-items:center;justify-content:space-between;padding:0 var(--xl);font-size:14px;z-index:5}
   .status .r{display:flex;gap:6px;align-items:center;font-size:12px}
-  .bat{background:#fff;color:#000;padding:0 5px;font-size:11px;clip-path:var(--px)}
+  .bat{background:#fff;color:#000;padding:0 5px;font-size:11px;}
   .screen{position:absolute;inset:48px 0 0 0;display:flex;flex-direction:column;transition:transform 320ms var(--ease),opacity 320ms;z-index:1}
   .screen.hide-r{transform:translateX(100%);opacity:0;pointer-events:none}
   .screen.hide-l{transform:translateX(-30%);opacity:0;pointer-events:none}
@@ -42,9 +42,9 @@
   /* header: nav + gauge */
   .head{flex-shrink:0;padding:0 var(--lg);display:flex;flex-direction:column;gap:var(--sm)}
   .nav{height:44px;display:flex;align-items:center;justify-content:space-between}
-  .nav .back{background:none;border:0;cursor:pointer;padding:6px;display:flex;clip-path:var(--px)}
+  .nav .back{background:none;border:0;cursor:pointer;padding:6px;display:flex;}
   .nav .back:hover{background:var(--pink-tint)}
-  .logo{font-family:var(--font-px-en);font-size:13px;letter-spacing:.06em;color:var(--text-secondary);display:flex;align-items:center;gap:6px}
+  .logo{font-family:var(--font-px-en);font-size:14px;letter-spacing:.06em;color:var(--text-secondary);display:flex;align-items:center;gap:6px}
   .logo i{color:var(--pink);font-style:normal}
   .gauge{display:grid;grid-template-columns:repeat(24,1fr);gap:2px;height:10px}
   .gauge b{background:var(--bg-elevated);transition:background 120ms}
@@ -57,34 +57,35 @@
   .hero svg.orbit{position:absolute;right:-56px;top:-30px;opacity:.45;pointer-events:none}
   .hero svg.pstar{position:absolute;right:20px;top:-2px;pointer-events:none;animation:bob 2.4s ease-in-out infinite}
   @keyframes bob{50%{transform:translateY(-4px)}}
-  .eyebrow{display:block;font-family:var(--font-px-en);font-size:11px;letter-spacing:.12em;color:var(--pink);margin-bottom:var(--sm)}
-  .hero h2,.done h2{font-family:var(--font-px-title);font-size:26px;font-weight:400;line-height:1.3;position:relative}
-  .hero p{font-size:14px;color:var(--text-secondary);margin-top:var(--sm);line-height:1.6;position:relative}
+  .eyebrow{display:block;font-family:var(--font-px-en);font-size:13px;letter-spacing:.08em;color:var(--pink);margin-bottom:var(--sm)}
+  .hero h2,.done h2{font-family:var(--font-px-title);font-size:32px;font-weight:400;line-height:1.25;position:relative}
+  .hero p{font-size:16px;color:var(--text-secondary);margin-top:var(--sm);line-height:1.6;position:relative}
 
   /* ---------- Game field ---------- */
   .field{display:flex;flex-direction:column;gap:var(--sm)}
-  .lab{display:flex;align-items:center;justify-content:space-between;font-size:13px;color:var(--text-secondary)}
-  .lab span::before{content:"▶";color:var(--pink);margin-right:6px;opacity:0;display:inline-block;width:0;transition:width 120ms,opacity 120ms}
+  .lab{display:flex;align-items:center;justify-content:space-between;font-size:14px;color:var(--text-secondary)}
+  .lab span::before{content:"▶";font-family:var(--font-px-title);color:var(--pink);margin-right:6px;opacity:0;display:inline-block;width:0;transition:width 120ms,opacity 120ms}
   .field.focus .lab span::before{opacity:1;width:auto;animation:blink 800ms steps(2) infinite}
   @keyframes blink{50%{opacity:0}}
-  .badge{font-family:var(--font-px-en);font-size:10px;letter-spacing:.06em;padding:2px 6px;clip-path:var(--px);display:none}
+  .badge{font-family:var(--font-px-en);font-size:11px;letter-spacing:.06em;padding:2px 6px;display:none}
   .badge.ok{display:inline-block;background:var(--success);color:#0D0D0D}
   .badge.err{display:inline-block;background:var(--error);color:#0D0D0D}
-  .input{height:50px;background:var(--bg-input);border:2px solid var(--border-default);clip-path:var(--px);display:flex;align-items:center;padding:0 var(--sm) 0 var(--md);gap:var(--sm);transition:border-color 120ms,background 120ms;position:relative}
+  .input{height:50px;background:var(--bg-input);border:2px solid var(--border-default);display:flex;align-items:center;padding:0 var(--sm) 0 var(--md);gap:var(--sm);transition:border-color 120ms,background 120ms;position:relative}
   .input:hover:not(.err){border-color:var(--border-strong)}
   .field.focus .input:not(.err){border-color:var(--pink);background:#170F13}
   .input.ok{border-color:var(--success)}
   .input.err{border-color:var(--error)}
-  .input input{flex:1;background:none;border:0;outline:0;color:var(--text-primary);font:inherit;font-size:15px;min-width:0;caret-color:var(--pink)}
+  .input input{flex:1;background:none;border:0;outline:0;color:var(--text-primary);font:inherit;font-size:16px;min-width:0;caret-color:var(--pink)}
   .input input::placeholder{color:var(--text-placeholder)}
-  .input .sel{flex:1;font-size:15px}
+  .input .sel{flex:1;font-size:16px}
   .count{font-family:var(--font-px-en);font-size:11px;color:var(--text-tertiary)}
   .count.over{color:var(--error)}
-  .icon-btn{background:none;border:0;cursor:pointer;display:flex;padding:5px;clip-path:var(--px);transition:background 120ms}
+  .icon-btn{background:none;border:0;cursor:pointer;display:flex;padding:5px;transition:background 120ms}
   .icon-btn:hover{background:var(--pink-tint)}
-  .dice{display:flex;align-items:center;gap:4px;font:inherit;font-size:12px;color:#0D0D0D;background:var(--pink);border:0;height:30px;padding:0 10px;cursor:pointer;clip-path:var(--px);box-shadow:inset 0 -3px 0 rgba(0,0,0,.25);white-space:nowrap;transition:transform 80ms}
+  .dice{display:flex;align-items:center;gap:4px;font:inherit;font-size:12px;color:#0D0D0D;background:var(--pink);border:0;height:30px;padding:0 10px;cursor:pointer;box-shadow:inset 0 -3px 0 rgba(0,0,0,.25);white-space:nowrap;transition:transform 80ms}
   .dice:hover{background:var(--pink-300)}
   .dice:active{transform:translateY(1px);box-shadow:inset 0 -1px 0 rgba(0,0,0,.25)}
+  .dice[hidden]{display:none}
   .dice.roll svg{animation:spin 300ms linear infinite}
   @keyframes spin{to{transform:rotate(360deg)}}
   .input.rolling input{color:var(--pink-300)}
@@ -93,7 +94,7 @@
 
   /* quest checklist */
   .quest{display:flex;flex-wrap:wrap;gap:6px}
-  .quest span{display:flex;align-items:center;gap:4px;font-size:12px;color:var(--text-tertiary);background:var(--bg-subtle);border:1px solid var(--border-default);padding:3px 8px 3px 6px;clip-path:var(--px);transition:color 120ms,border-color 120ms,background 120ms}
+  .quest span{display:flex;align-items:center;gap:4px;font-size:12px;color:var(--text-tertiary);background:var(--bg-subtle);border:1px solid var(--border-default);padding:3px 8px 3px 6px;transition:color 120ms,border-color 120ms,background 120ms}
   .quest span i{width:8px;height:8px;background:var(--border-strong);display:inline-block;transition:background 120ms}
   .quest span.ok{color:var(--success);border-color:rgba(77,255,195,.4)}
   .quest span.ok i{background:var(--success)}
@@ -101,7 +102,7 @@
   .quest span.bad i{background:var(--error)}
 
   /* error bubble (game dialog) */
-  .bubble{position:relative;background:#2A1510;border:2px solid var(--error);clip-path:var(--px);padding:var(--sm) var(--md);font-size:13px;line-height:1.5;color:#FFD9CC;display:flex;gap:var(--sm);align-items:flex-start;animation:pop-in 220ms var(--ease)}
+  .bubble{position:relative;background:#2A1510;border:2px solid var(--error);padding:var(--sm) var(--md);font-size:13px;line-height:1.5;color:#FFD9CC;display:flex;gap:var(--sm);align-items:flex-start;animation:pop-in 220ms var(--ease)}
   .bubble b{color:var(--error);font-weight:400}
   .bubble small{display:block;color:var(--text-tertiary);font-size:12px}
   .bubble[hidden],.helper[hidden],.notice[hidden]{display:none}
@@ -114,7 +115,7 @@
   @keyframes xp{from{opacity:0;transform:translateY(6px)}20%{opacity:1}to{opacity:0;transform:translateY(-22px)}}
 
   /* ---------- Buttons ---------- */
-  .btn{height:52px;width:100%;border:0;clip-path:var(--px);font-family:var(--font-px-ko);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:var(--sm);box-shadow:inset 0 -4px 0 rgba(0,0,0,.28);transition:transform 80ms,background 120ms,color 120ms}
+  .btn{height:52px;width:100%;border:0;font-family:var(--font-px-title);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:var(--sm);box-shadow:inset 0 -4px 0 rgba(0,0,0,.28);transition:transform 80ms,background 120ms,color 120ms}
   .btn.primary{background:var(--pink);color:#0D0D0D}
   .btn.primary:hover:not(:disabled){background:var(--pink-300)}
   .btn.ghost{background:var(--bg-input);color:var(--pink);box-shadow:inset 0 0 0 2px var(--pink),inset 0 -4px 0 rgba(255,45,149,.25)}
@@ -130,7 +131,7 @@
   .cta{padding:var(--md) var(--lg) var(--xl);flex-shrink:0}
 
   /* ---------- Toggles (captcha / agree) ---------- */
-  .tog{display:flex;align-items:flex-start;gap:var(--md);padding:var(--md) var(--md);background:var(--bg-subtle);border:2px solid var(--border-default);clip-path:var(--px);cursor:pointer;user-select:none;font-size:14px;line-height:1.6;transition:border-color 120ms,background 120ms;position:relative}
+  .tog{display:flex;align-items:flex-start;gap:var(--md);padding:var(--md) var(--md);background:var(--bg-subtle);border:2px solid var(--border-default);cursor:pointer;user-select:none;font-size:14px;line-height:1.6;transition:border-color 120ms,background 120ms;position:relative}
   .tog:hover{border-color:var(--pink);background:#1A1418}
   .tog.on{border-color:rgba(255,45,149,.6)}
   .tog .sec{margin-left:auto;font-size:11px;color:var(--text-tertiary);display:flex;flex-direction:column;align-items:center;gap:2px;align-self:center}
@@ -144,19 +145,19 @@
   @keyframes pop{45%{transform:scale(1.25)}}
 
   /* ---------- Notice cards ---------- */
-  .notice{border:2px solid rgba(255,45,149,.5);background:#1F1419;clip-path:var(--px);padding:var(--md);display:flex;gap:var(--md);font-size:13px;line-height:1.6;animation:pop-in 240ms var(--ease);position:relative}
+  .notice{border:2px solid rgba(255,45,149,.5);background:#1F1419;padding:var(--md);display:flex;gap:var(--md);font-size:13px;line-height:1.6;animation:pop-in 240ms var(--ease);position:relative}
   .notice .ic{width:32px;height:32px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:var(--pink-tint)}
-  .notice b{display:block;font-family:var(--font-px-title);font-size:16px;font-weight:400;color:var(--text-primary);margin-bottom:2px}
+  .notice b{display:block;font-family:var(--font-px-title);font-size:17px;font-weight:400;color:var(--text-primary);margin-bottom:2px}
   .notice p{color:var(--text-secondary)}
   .notice .acts{display:flex;align-items:center;gap:var(--md);margin-top:var(--sm)}
-  .mini{font:inherit;font-size:13px;height:32px;padding:0 var(--md);border:0;background:var(--pink);color:#0D0D0D;cursor:pointer;clip-path:var(--px);box-shadow:inset 0 -3px 0 rgba(0,0,0,.25);white-space:nowrap}
+  .mini{font:inherit;font-size:13px;height:32px;padding:0 var(--md);border:0;background:var(--pink);color:#0D0D0D;cursor:pointer;box-shadow:inset 0 -3px 0 rgba(0,0,0,.25);white-space:nowrap}
   .mini:hover{background:var(--pink-300)}
   .mini:active{transform:translateY(1px)}
   .lnk{font:inherit;font-size:12px;color:var(--pink-300);background:none;border:0;cursor:pointer;text-decoration:underline;text-underline-offset:3px;white-space:nowrap}
   .lnk:hover{color:#fff}
   .notice.welcome{border-color:var(--pink);background:linear-gradient(135deg,#2A0F1E,#1F1419)}
   .notice.welcome b{color:var(--pink-300)}
-  .notice.welcome::after{content:"✦ ✧ ✦";position:absolute;right:10px;top:6px;color:var(--pink);font-size:10px;letter-spacing:2px;animation:blink 1.2s steps(2) infinite}
+  .notice.welcome::after{content:"★ ☆ ★";position:absolute;right:10px;top:6px;color:var(--pink);font-size:10px;letter-spacing:2px;animation:blink 1.2s steps(2) infinite}
   .welcome-glow{position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 85% 0%,rgba(255,45,149,.2),transparent 55%);opacity:0;transition:opacity 500ms}
   .rejoin .welcome-glow{opacity:1}
 
@@ -167,7 +168,69 @@
   .confetti{position:absolute;width:6px;height:6px;pointer-events:none;animation:fall 1100ms var(--ease) forwards}
   @keyframes fall{to{transform:translate(var(--dx),var(--dy));opacity:0}}
 
-  .toast{position:absolute;left:50%;bottom:120px;transform:translate(-50%,10px);background:var(--bg-elevated);color:var(--text-primary);font-size:12px;padding:10px 14px;border:2px solid var(--pink);clip-path:var(--px);opacity:0;transition:.2s;pointer-events:none;white-space:nowrap;z-index:9}
+  /* country select + bottom sheet */
+  .input.select{width:100%;font:inherit;color:var(--text-primary);text-align:left;cursor:pointer}
+  .input.select:hover{border-color:var(--pink)}
+  .input.select:focus-visible{outline:none;border-color:var(--pink);background:#170F13}
+  .flag{font-size:18px;line-height:1;width:22px;text-align:center;flex-shrink:0}
+  .sheet-back{position:absolute;inset:0;background:rgba(0,0,0,.6);z-index:20;display:flex;align-items:flex-end;animation:fade 160ms}
+  .sheet-back[hidden]{display:none}
+  .sheet{width:100%;height:72%;background:var(--bg-base);border-top:2px solid var(--pink);padding:var(--md) var(--lg) var(--lg);display:flex;flex-direction:column;gap:var(--md);animation:up 260ms var(--ease)}
+  .sheet-head{display:flex;align-items:center;justify-content:space-between}
+  .sheet h3{font-family:var(--font-px-title);font-size:24px;font-weight:400}
+  .clist{flex:1;overflow:auto;display:flex;flex-direction:column;gap:2px;margin:0 calc(var(--sm) * -1);padding:0 var(--sm)}
+  .citem{flex-shrink:0;display:flex;align-items:center;gap:var(--md);height:48px;padding:0 var(--md);background:none;border:2px solid transparent;font:inherit;font-size:16px;color:var(--text-secondary);cursor:pointer;text-align:left;transition:background 80ms,border-color 80ms}
+  .citem .en{margin-left:auto;font-family:var(--font-px-en);font-size:11px;color:var(--text-tertiary)}
+  .citem:hover,.citem.kb{background:var(--pink-tint);border-color:rgba(255,45,149,.5);color:#fff}
+  .citem:hover .nm::before,.citem.kb .nm::before{content:"▶ ";font-family:var(--font-px-title);color:var(--pink)}
+  .citem.sel{color:var(--pink);border-color:var(--pink)}
+  .citem.sel .en{color:var(--pink-300)}
+  .cempty{color:var(--text-tertiary);font-size:14px;text-align:center;padding:var(--xl) 0}
+  @keyframes up{from{transform:translateY(100%)}}
+  @keyframes fade{from{opacity:0}}
+  /* ---------- prototype control panel (앱 바깥) ---------- */
+  .stage{display:flex;gap:28px;align-items:flex-start;justify-content:center;flex-wrap:wrap;width:100%}
+  .ctrl{width:236px;background:var(--bg-subtle);border:2px solid var(--border-default);padding:var(--md);display:flex;flex-direction:column;gap:var(--md);position:sticky;top:20px}
+  .ctrl-head{display:flex;flex-direction:column;gap:2px;padding-bottom:var(--sm);border-bottom:2px dashed var(--border-default)}
+  .ctrl-head span{font-family:var(--font-px-title);font-size:14px;color:var(--pink);letter-spacing:.06em}
+  .ctrl-head em{font-style:normal;font-size:12px;color:var(--text-tertiary)}
+  .ctrl-list{display:flex;flex-direction:column;gap:2px}
+  .ctrl-group{font-family:var(--font-px-title);font-size:11px;color:var(--text-tertiary);letter-spacing:.06em;margin:var(--sm) 0 2px}
+  .scene{display:flex;align-items:center;gap:var(--sm);height:34px;padding:0 var(--sm);background:none;border:2px solid transparent;font:inherit;font-size:13px;color:var(--text-secondary);cursor:pointer;text-align:left}
+  .scene b{font-family:var(--font-px-title);font-weight:400;font-size:12px;color:var(--text-tertiary);width:20px}
+  .scene:hover{background:var(--pink-tint);color:#fff}
+  .scene.on{border-color:var(--pink);color:var(--pink);background:#1F1419}
+  .scene.on b{color:var(--pink)}
+  .ctrl-nav{display:flex;align-items:center;justify-content:space-between;gap:var(--sm);font-family:var(--font-px-title);font-size:12px;color:var(--text-tertiary)}
+  .cbtn{font:inherit;font-family:var(--font-px-title);font-size:13px;color:#0D0D0D;background:var(--pink);border:0;height:34px;padding:0 10px;cursor:pointer;box-shadow:inset 0 -3px 0 rgba(0,0,0,.28)}
+  .cbtn:hover{background:var(--pink-300)}
+  .cbtn:active{transform:translateY(1px);box-shadow:inset 0 -1px 0 rgba(0,0,0,.28)}
+  .cbtn:disabled{background:var(--bg-elevated);color:var(--text-disabled);box-shadow:none;cursor:default}
+  .ctrl-tip{font-size:11px;color:var(--text-tertiary)}
+  .ctrl-tip b{font-family:var(--font-px-title);color:var(--pink-300);font-weight:400}
+  @media (max-width:700px){.ctrl{width:375px;max-width:100%;position:static}}
+  /* ---------- auth ---------- */
+  .badge.chk{display:inline-block;background:var(--bg-elevated);color:var(--text-tertiary)}
+  .link.hot{color:var(--pink);font-family:var(--font-px-title)}
+  .cta .bubble{margin-bottom:var(--md)}
+  .mode{display:inline-block;margin-top:6px;font-family:var(--font-px-title);font-size:11px;letter-spacing:.06em;padding:3px 8px;border:2px solid var(--border-default);color:var(--text-tertiary)}
+  .mode.live{border-color:var(--success);color:var(--success)}
+  .pcard{display:flex;gap:var(--md);align-items:center;padding:var(--md);border:2px solid var(--pink);background:#1F1419}
+  .pcard .av{width:56px;height:56px;display:flex;align-items:center;justify-content:center;background:var(--pink-tint);flex-shrink:0}
+  .pcard .av svg{position:static;animation:none}
+  .pcard .meta{display:flex;flex-direction:column;gap:2px;min-width:0}
+  .pcard .nick{font-family:var(--font-px-title);font-size:20px}
+  .pcard .sub{font-size:12px;color:var(--text-tertiary);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .lv{display:flex;flex-direction:column;gap:6px}
+  .lv-row{display:flex;justify-content:space-between;font-family:var(--font-px-title);font-size:12px;color:var(--text-secondary)}
+  .lv-bar{display:grid;grid-template-columns:repeat(24,1fr);gap:2px;height:10px}
+  .lv-bar b{background:var(--bg-elevated)}.lv-bar b.on{background:var(--success)}
+  .confirm{border:2px solid var(--error);background:#2A1510;padding:var(--md);display:flex;flex-direction:column;gap:var(--sm);font-size:13px;line-height:1.6;color:#FFD9CC;animation:pop-in 220ms var(--ease)}
+  .confirm[hidden]{display:none}
+  .confirm b{font-family:var(--font-px-title);font-weight:400;font-size:16px;color:var(--error)}
+  .confirm .acts{display:flex;gap:var(--sm);align-items:center}
+  .mini.danger{background:var(--error)}
+  .toast{position:absolute;left:50%;bottom:120px;transform:translate(-50%,10px);background:var(--bg-elevated);color:var(--text-primary);font-size:12px;padding:10px 14px;border:2px solid var(--pink);opacity:0;transition:.2s;pointer-events:none;white-space:nowrap;z-index:9}
   .toast.show{opacity:1;transform:translate(-50%,0)}
   .tip{font-size:12px;color:var(--text-tertiary);text-align:center;line-height:1.8}
   .tip b{color:var(--pink-300);font-weight:400}
@@ -176,10 +239,12 @@
 <body>
 <div class="top">
   <h1>USER<em>VERSE</em> · SIGN UP</h1>
-  <p>UI 컨셉 데모 · 입력값은 어디에도 전송되지 않아요</p>
+  <p>폰트: DOS고딕·도스이야기(MIT)</p>
+  <span class="mode" id="modeBadge">DEMO</span>
 </div>
 <button class="sound" id="soundBtn">♪ <span>사운드 켜짐</span></button>
 
+<div class="stage">
 <div class="phone">
   <div class="status"><span id="clock">1:05</span><span class="r">5G <span class="bat">94</span></span></div>
 
@@ -188,19 +253,20 @@
     <div class="content first">
       <div class="hero">
         ${ORBIT}${PSTAR}
-        <span class="eyebrow">✦ PLAYER LOGIN</span>
+        <span class="eyebrow">★ PLAYER LOGIN</span>
         <h2>다시 만나서<br>반가워요</h2>
         <p>유저버스 계정으로 로그인해 주세요.</p>
       </div>
       <div class="stack" style="gap:var(--lg)">
         <div class="field"><div class="lab"><span>이메일</span></div>
-          <div class="input"><input id="loginEmail" type="email" placeholder="player@email.com" autocomplete="off"></div></div>
+          <div class="input" id="loginEmailBox"><input id="loginEmail" type="email" placeholder="player@email.com" autocomplete="off"></div></div>
         <div class="field"><div class="lab"><span>비밀번호</span></div>
-          <div class="input"><input id="loginPw" type="password" placeholder="비밀번호를 입력해 주세요" autocomplete="off"><button class="icon-btn" data-eye aria-label="비밀번호 보기">${EYE}</button></div></div>
+          <div class="input" id="loginPwBox"><input id="loginPw" type="password" placeholder="비밀번호를 입력해 주세요" autocomplete="off"><button class="icon-btn" data-eye aria-label="비밀번호 보기">${EYE}</button></div>
+          <div class="bubble" id="loginErr" role="alert" hidden>${ALERT}<div><b id="loginErrTitle"></b><small id="loginErrSub"></small></div></div></div>
       </div>
       <div class="stack">
-        <button class="btn primary" data-toast="데모에서는 로그인이 동작하지 않아요">로그인</button>
-        <button class="link" data-toast="도움말 화면은 이 데모에 없어요">로그인에 문제가 있나요?</button>
+        <button class="btn primary" id="loginBtn" disabled>로그인</button>
+        <button class="link" id="helpLink" data-toast="비밀번호 재설정은 이 데모에 없어요">로그인에 문제가 있나요?</button>
       </div>
       <div class="stack">
         <div class="divider">아직 계정이 없나요?</div>
@@ -212,10 +278,10 @@
   <!-- 회원가입 -->
   <section class="screen hide-r" data-s="signup">
     <div class="welcome-glow"></div>
-    <div class="head"><div class="nav"><button class="back" data-back="login" aria-label="뒤로">${BACK}</button><span class="logo"><i>✦</i>USERVERSE</span></div><div class="gauge"></div></div>
+    <div class="head"><div class="nav"><button class="back" data-back="login" aria-label="뒤로">${BACK}</button><span class="logo"><i>★</i>USERVERSE</span></div><div class="gauge"></div></div>
     <div class="content">
       <div class="hero">
-        <span class="eyebrow" id="suEyebrow">✦ NEW PLAYER</span>
+        <span class="eyebrow" id="suEyebrow">★ NEW PLAYER</span>
         <h2 id="suTitle">계정 만들기</h2>
         <p id="suDesc">몇 가지만 입력하면<br>바로 시작할 수 있어요.</p>
       </div>
@@ -223,8 +289,8 @@
         <div class="input" id="emailBox"><input id="email" type="email" placeholder="player@email.com" autocomplete="off"></div>
         <div class="bubble" id="emailBubble" hidden>${ALERT}<div><b>이메일 형식을 확인해 주세요</b><small>예: player@userverse.gg</small></div></div>
         <div class="notice" id="notice" hidden></div></div>
-      <div class="field"><div class="lab"><span>거주 국가</span></div>
-        <div class="input"><span class="sel">대한민국</span>${CHEV}</div></div>
+      <div class="field" id="countryField"><div class="lab"><span>거주 국가</span></div>
+        <button class="input select" id="countryBtn" type="button" aria-haspopup="dialog"><span class="flag" id="countryFlag">🇰🇷</span><span class="sel" id="countryVal">대한민국</span>${CHEV}</button></div>
       <div class="stack" style="gap:var(--sm)">
         <div class="tog" id="captcha"><div class="cb">${CHECK}</div><span style="align-self:center">로봇이 아닙니다</span><div class="sec">${SHIELD}보안 확인</div></div>
         <div class="tog" id="agree"><div class="cb">${CHECK}</div><span>만 13세 이상이며,<br><a>유저버스 이용약관</a> 및<br><a>개인정보 처리방침</a>에 동의합니다.</span></div>
@@ -235,10 +301,10 @@
 
   <!-- 프로필 -->
   <section class="screen hide-r" data-s="info">
-    <div class="head"><div class="nav"><button class="back" data-back="signup" aria-label="뒤로">${BACK}</button><span class="logo"><i>✦</i>USERVERSE</span></div><div class="gauge"></div></div>
+    <div class="head"><div class="nav"><button class="back" data-back="signup" aria-label="뒤로">${BACK}</button><span class="logo"><i>★</i>USERVERSE</span></div><div class="gauge"></div></div>
     <div class="content">
       <div class="hero">
-        <span class="eyebrow">✦ PROFILE SETUP</span>
+        <span class="eyebrow">★ PROFILE SETUP</span>
         <h2>플레이어 정보 입력</h2>
         <p>사용할 닉네임과 비밀번호를<br>정해 주세요.</p>
       </div>
@@ -253,42 +319,82 @@
         <div class="input" id="pw2Box"><input id="pw2" type="password" placeholder="한 번 더 입력해 주세요" autocomplete="off"><button class="icon-btn" data-eye aria-label="비밀번호 보기">${EYE}</button></div>
         <div class="bubble" id="pw2Bubble" hidden>${ALERT}<div><b>비밀번호가 일치하지 않아요</b><small>위에 입력한 비밀번호와 똑같이 입력해 주세요.</small></div></div></div>
     </div>
-    <div class="cta"><button class="btn primary" id="finish" disabled>가입 완료</button></div>
+    <div class="cta"><div class="bubble" id="signupErr" role="alert" hidden>${ALERT}<div><b id="signupErrTitle"></b><small id="signupErrSub"></small></div></div><button class="btn primary" id="finish" disabled>가입 완료</button></div>
   </section>
 
   <!-- 완료 -->
   <section class="screen hide-r" data-s="done">
-    <div class="head"><div class="nav"><span></span><span class="logo"><i>✦</i>USERVERSE</span></div><div class="gauge"></div></div>
+    <div class="head"><div class="nav"><span></span><span class="logo"><i>★</i>USERVERSE</span></div><div class="gauge"></div></div>
     <div class="done" id="doneBox">
       <div class="mark">${BIGSTAR}</div>
-      <span class="eyebrow" id="doneEyebrow">✦ STAGE CLEAR</span>
+      <span class="eyebrow" id="doneEyebrow">★ STAGE CLEAR</span>
       <h2 id="doneTitle">가입이 완료됐어요</h2>
       <p id="doneDesc"></p>
     </div>
     <div class="cta"><button class="btn primary" data-reset>로그인하러 가기</button></div>
   </section>
 
+  <!-- 로그인 후: 플레이어 허브 -->
+  <section class="screen hide-r" data-s="hub">
+    <div class="head"><div class="nav"><span></span><span class="logo"><i>★</i>USERVERSE</span></div></div>
+    <div class="content">
+      <div class="hero">
+        ${ORBIT}${PSTAR}
+        <span class="eyebrow">★ PLAYER HUB</span>
+        <h2 id="hubTitle">어서 와요!</h2>
+        <p>오늘도 즐거운 플레이 되세요.</p>
+      </div>
+      <div class="pcard"><div class="av">${PSTAR}</div><div class="meta"><span class="nick" id="hubNick"></span><span class="sub" id="hubEmail"></span><span class="sub" id="hubCountry"></span></div></div>
+      <div class="lv"><div class="lv-row"><span>LV.1 NEW PLAYER</span><span>30 / 100 XP</span></div><div class="lv-bar" id="lvBar"></div></div>
+      <div class="stack">
+        <button class="btn ghost" id="logoutBtn">로그아웃</button>
+        <button class="link" id="withdrawBtn">회원 탈퇴</button>
+        <div class="confirm" id="withdrawConfirm" hidden><b>정말 탈퇴할까요?</b><span>30일 안에 같은 이메일로 다시 가입하면<br>지금 닉네임을 그대로 돌려드려요.</span><div class="acts"><button class="mini danger" id="withdrawYes">탈퇴하기</button><button class="lnk" id="withdrawNo">취소</button></div></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="sheet-back" id="sheetBack" hidden>
+    <div class="sheet" role="dialog" aria-label="거주 국가 선택">
+      <div class="sheet-head"><span class="eyebrow" style="margin:0">★ SELECT REGION</span><button class="icon-btn" id="sheetClose" aria-label="닫기">${CLOSE}</button></div>
+      <h3>거주 국가 선택</h3>
+      <div class="input" id="countrySearchBox"><span class="flag">⌕</span><input id="countrySearch" placeholder="나라 이름을 검색해 주세요" autocomplete="off"></div>
+      <div class="clist" id="clist"></div>
+    </div>
+  </div>
   <div class="toast" id="toast"></div>
 </div>
 
-<p class="tip">이메일: <b>sisbhjj@gmail.com</b>(이미 가입) · <b>comeback@gmail.com</b>(탈퇴 후 재가입) · <b>abc@</b>(형식 오류)<br>
+<aside class="ctrl" aria-label="프로토타입 단계 이동">
+  <div class="ctrl-head"><span>★ PROTOTYPE</span><em>단계 바로가기</em></div>
+  <div class="ctrl-list" id="sceneList"></div>
+  <div class="ctrl-nav"><button class="cbtn" id="scenePrev">◀ 이전</button><span id="sceneNo">1/14</span><button class="cbtn" id="sceneNext">다음 ▶</button></div>
+  <p class="ctrl-tip">키보드 <b>[</b> · <b>]</b> 로도 넘어가요</p>
+  <button class="cbtn" id="demoReset" hidden>데모 데이터 초기화</button>
+</aside>
+</div>
+
+<p class="tip">로그인 테스트(DEMO 모드): <b>sisbhjj@gmail.com</b> / <b>userverse1</b><br>이메일: <b>sisbhjj@gmail.com</b>(이미 가입) · <b>comeback@gmail.com</b>(탈퇴 후 재가입) · <b>abc@</b>(형식 오류)<br>
 닉네임: <b>🎲 추천</b> 버튼 · <b>gamer123</b>(중복) · <b>게이머!</b>(문자) · <b>a</b>(길이)<br>
 비밀번호: <b>abcd</b>를 넣고 다음 칸으로 넘어가 보세요. 화면을 한 번 클릭한 뒤부터 소리가 나요.</p>
 
+<script src="js/auth-config.js"></script>
+<script src="js/auth.js"></script>
 <script>
 // ---------- 8-bit 느낌 UI 사운드 (Web Audio 합성, 작고 짧게) ----------
 const SFX=(()=>{let ctx,master,on=true;
  function init(){if(!ctx){const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;ctx=new AC();master=ctx.createGain();master.gain.value=.7;
    const lp=ctx.createBiquadFilter();lp.type='lowpass';lp.frequency.value=4200;master.connect(lp);lp.connect(ctx.destination)}
   if(ctx.state==='suspended')ctx.resume()}
- function tone(f,{t=0,dur=.08,type='sine',gain=.06,to=null,attack=.004}={}){if(!ctx||!on)return;const n=ctx.currentTime+t,o=ctx.createOscillator(),g=ctx.createGain();
+ let quiet=false;
+ function tone(f,{t=0,dur=.08,type='sine',gain=.06,to=null,attack=.004}={}){if(!ctx||!on||quiet)return;const n=ctx.currentTime+t,o=ctx.createOscillator(),g=ctx.createGain();
   o.type=type;o.frequency.setValueAtTime(f,n);if(to)o.frequency.exponentialRampToValueAtTime(to,n+dur);
   g.gain.setValueAtTime(0,n);g.gain.linearRampToValueAtTime(gain,n+attack);g.gain.exponentialRampToValueAtTime(.0001,n+dur);o.connect(g);g.connect(master);o.start(n);o.stop(n+dur+.03)}
- function swoosh(from,to,{dur=.24,gain=.035}={}){if(!ctx||!on)return;const n=ctx.currentTime,len=Math.floor(ctx.sampleRate*dur),buf=ctx.createBuffer(1,len,ctx.sampleRate),d=buf.getChannelData(0);
+ function swoosh(from,to,{dur=.24,gain=.035}={}){if(!ctx||!on||quiet)return;const n=ctx.currentTime,len=Math.floor(ctx.sampleRate*dur),buf=ctx.createBuffer(1,len,ctx.sampleRate),d=buf.getChannelData(0);
   for(let i=0;i<len;i++)d[i]=Math.random()*2-1;const src=ctx.createBufferSource();src.buffer=buf;const bp=ctx.createBiquadFilter();bp.type='bandpass';bp.Q.value=1.4;
   bp.frequency.setValueAtTime(from,n);bp.frequency.exponentialRampToValueAtTime(to,n+dur);const g=ctx.createGain();g.gain.setValueAtTime(0,n);g.gain.linearRampToValueAtTime(gain,n+dur*.35);g.gain.exponentialRampToValueAtTime(.0001,n+dur);
   src.connect(bp);bp.connect(g);g.connect(master);src.start(n);src.stop(n+dur)}
- return{init,toggle(){on=!on;return on},
+ return{init,quiet(v){quiet=v},toggle(){on=!on;return on},
   hover(){tone(1568,{dur:.022,type:'square',gain:.006})},
   press(){tone(220,{dur:.08,to:150,gain:.1});tone(1760,{dur:.016,type:'square',gain:.008})},
   type(){tone(900+Math.random()*200,{dur:.018,type:'square',gain:.004})},
@@ -318,22 +424,23 @@ const ICON={
  ORBIT:'<svg class="orbit" width="150" height="150" viewBox="0 0 150 150" fill="none" stroke="#FF2D95" stroke-width="2"><circle cx="75" cy="75" r="40"/><ellipse cx="75" cy="78" rx="70" ry="17" transform="rotate(-12 75 78)"/></svg>',
  PSTAR:`<svg class="pstar" width="30" height="28" viewBox="0 0 13 12" shape-rendering="crispEdges" fill="#FF2D95"><path d="${STAR_PATH}"/></svg>`,
  BIGSTAR:`<svg width="84" height="78" viewBox="0 0 13 12" shape-rendering="crispEdges" fill="#FF2D95"><path d="${STAR_PATH}"/></svg>`,
+ CLOSE:'<svg width="18" height="18" viewBox="0 0 9 9" shape-rendering="crispEdges" fill="#D6D6D6"><path d="M1 1h2v1H1zM2 2h2v1H2zM3 3h3v3H3zM5 2h2v1H5zM6 1h2v1H6zM2 6h2v1H2zM1 7h2v1H1zM5 6h2v1H5zM6 7h2v1H6z"/></svg>',
  OKC:'<svg width="14" height="14" viewBox="0 0 8 8" shape-rendering="crispEdges" fill="#4DFFC3"><path d="M6 1h1v2H6zM5 3h1v1H5zM4 4h1v1H4zM3 5h1v1H3zM1 3h1v1H1zM2 4h1v1H2z"/></svg>'
 };
 const phone=document.querySelector('.phone');phone.innerHTML=phone.innerHTML.replace(/\$\{(\w+)\}/g,(_,k)=>ICON[k]||'');
 
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 // ---------- Navigation + gauge ----------
-const order=['login','signup','info','done'];let cur='login';
+const order=['login','signup','info','done','hub'];let cur='login';
 $$('.gauge').forEach(g=>{for(let i=0;i<24;i++)g.appendChild(document.createElement('b'))});
 function stepFraction(){
   if(cur==='signup')return [emailState==='ok'||emailState==='rejoin',capCb.classList.contains('on'),agCb.classList.contains('on')].filter(Boolean).length/3;
   if(cur==='info')return [nameOk,pwOk,matchOk].filter(Boolean).length/3;return 0}
-function paintGauge(){const base={login:0,signup:0,info:1,done:3}[cur];const p=cur==='done'?1:(base+stepFraction())/3;
+function paintGauge(){if(cur==='hub')return;const base={login:0,signup:0,info:1,done:3}[cur];const p=cur==='done'?1:(base+stepFraction())/3;
   const n=Math.round(p*24);$$('.screen:not(.hide-r):not(.hide-l) .gauge b').forEach((b,i)=>{b.classList.toggle('on',i<n);b.classList.toggle('edge',i===n-1&&n<24)})}
 function go(to,silent){const fi=order.indexOf(cur),ti=order.indexOf(to);if(!silent&&fi!==ti){to==='done'?SFX.success():SFX.page(ti<fi)}
   $$('.screen').forEach(s=>{const i=order.indexOf(s.dataset.s);s.classList.toggle('hide-r',i>ti);s.classList.toggle('hide-l',i<ti)});
-  cur=to;$('#clock').textContent={login:'1:05',signup:'1:07',info:'1:09',done:'1:10'}[to];paintGauge();if(to==='done')burst()}
+  cur=to;$('#clock').textContent={login:'1:05',signup:'1:07',info:'1:09',done:'1:10',hub:'1:12'}[to];paintGauge();if(to==='done')burst()}
 let tt;function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),1600)}
 $$('[data-toast]').forEach(b=>b.onclick=()=>toast(b.dataset.toast));
 $$('[data-go]').forEach(b=>b.onclick=()=>go(b.dataset.go));
@@ -342,30 +449,37 @@ $$('[data-eye]').forEach(b=>b.onclick=()=>{const i=b.parentElement.querySelector
 // game feel helpers
 const shake=el=>{el.classList.remove('shake');void el.offsetWidth;el.classList.add('shake')};
 function xp(field,txt='+10 XP'){const e=document.createElement('span');e.className='xp';e.textContent=txt;field.style.position='relative';field.appendChild(e);setTimeout(()=>e.remove(),950)}
-function badge(el,state){el.className='badge'+(state?' '+state:'');el.textContent=state==='ok'?'OK!':state==='err'?'ERR':''}
+function badge(el,state){el.className='badge'+(state?' '+state:'');el.textContent=state==='ok'?'OK!':state==='err'?'ERR':state==='chk'?'···':''}
 $$('input').forEach(i=>{const f=i.closest('.field');i.addEventListener('focus',()=>{f&&f.classList.add('focus');SFX.focus()});i.addEventListener('blur',()=>f&&f.classList.remove('focus'));i.addEventListener('keydown',e=>{if(e.key.length===1||e.key==='Backspace')SFX.type()})});
 
 // ---------- Step 2: email / captcha / agree ----------
-const EXISTING='sisbhjj@gmail.com',REJOIN={email:'comeback@gmail.com',nick:'CometRider'};
-let rejoin=false,emailState='',emailTouched=false;
+let rejoin=false,rejoinNick='',emailState='',emailTouched=false,emailInfo=null,emailSeq=0,emailTimer=null;
 const email=$('#email'),emailBox=$('#emailBox'),emailBubble=$('#emailBubble'),notice=$('#notice'),toInfo=$('#toInfo');
 const capCb=$('#captcha .cb'),agCb=$('#agree .cb'),emailField=email.closest('.field');
 function syncStep2(){toInfo.disabled=!((emailState==='ok'||emailState==='rejoin')&&capCb.classList.contains('on')&&agCb.classList.contains('on'));paintGauge()}
 function setRejoin(v){rejoin=v;$('[data-s=signup]').classList.toggle('rejoin',v);
-  $('#suEyebrow').textContent=v?'✦ WELCOME BACK':'✦ NEW PLAYER';$('#suTitle').textContent=v?'다시 오셨군요!':'계정 만들기';
+  $('#suEyebrow').textContent=v?'★ WELCOME BACK':'★ NEW PLAYER';$('#suTitle').textContent=v?'다시 오셨군요!':'계정 만들기';
   $('#suDesc').innerHTML=v?'다시 만나서 정말 반가워요.<br>예전처럼 몇 가지만 확인할게요.':'몇 가지만 입력하면<br>바로 시작할 수 있어요.';toInfo.textContent=v?'다시 시작하기':'계속하기'}
 function checkEmail(fromBlur){
   const v=email.value.trim().toLowerCase(),prev=emailState;
-  emailState=!v?'':!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)?'invalid':v===EXISTING?'exist':v===REJOIN.email?'rejoin':'ok';
+  // 형식이 맞으면 서버(Supabase 또는 DEMO)에 이 이메일의 상태를 물어본다
+  if(!v)emailState='';else if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v))emailState='invalid';
+  else if(emailInfo&&emailInfo.email===v)emailState=emailInfo.status==='exists'?'exist':emailInfo.status==='rejoin'?'rejoin':emailInfo.status==='error'?'neterr':'ok';
+  else{emailState='checking';const seq=++emailSeq;clearTimeout(emailTimer);
+    emailTimer=setTimeout(()=>UVAuth.checkEmail(v).then(r=>({email:v,...r}),()=>({email:v,status:'error'})).then(info=>{if(seq!==emailSeq)return;emailInfo=info;checkEmail(false)}),300)}
+  rejoinNick=emailState==='rejoin'?emailInfo.nickname:'';
   // 형식 오류는 입력을 마친 뒤(blur/Enter)에만, 이후엔 고쳐질 때까지 유지
   const showBad=emailState==='invalid'&&emailTouched;
   emailBubble.hidden=!showBad;emailBox.classList.toggle('err',showBad);emailBox.classList.toggle('ok',emailState==='ok'||emailState==='rejoin');
-  badge($('#emailBadge'),showBad?'err':(emailState==='ok'||emailState==='rejoin')?'ok':'');
+  badge($('#emailBadge'),showBad||emailState==='neterr'?'err':(emailState==='ok'||emailState==='rejoin')?'ok':emailState==='checking'?'chk':'');
   if(emailState==='exist'){notice.className='notice';notice.hidden=false;
-    notice.innerHTML='<div class="ic">'+ICON.USER+'</div><div><b>당신 계정 아닌가요?</b><p>'+EXISTING+'으로<br>가입된 계정이 이미 있어요.</p><div class="acts"><button class="mini" id="goLogin">로그인하기</button><button class="lnk" id="findPw">비밀번호 찾기</button></div></div>';
-    $('#goLogin').onclick=()=>{$('#loginEmail').value=EXISTING;go('login');setTimeout(()=>$('#loginPw').focus(),350)};$('#findPw').onclick=()=>toast('비밀번호 찾기는 이 데모에 없어요');
+    notice.innerHTML='<div class="ic">'+ICON.USER+'</div><div><b>당신 계정 아닌가요?</b><p>'+v+'으로<br>가입된 계정이 이미 있어요.</p><div class="acts"><button class="mini" id="goLogin">로그인하기</button><button class="lnk" id="findPw">비밀번호 찾기</button></div></div>';
+    $('#goLogin').onclick=()=>{$('#loginEmail').value=v;syncLogin();go('login');setTimeout(()=>$('#loginPw').focus(),350)};$('#findPw').onclick=()=>toast('비밀번호 찾기는 이 데모에 없어요');
   }else if(emailState==='rejoin'){notice.className='notice welcome';notice.hidden=false;
-    notice.innerHTML='<div class="ic">'+ICON.SPARK+'</div><div><b>다시 돌아오신 걸 환영해요!</b><p>예전에 쓰던 닉네임 <span style="color:#fff">'+REJOIN.nick+'</span>를<br>그대로 다시 쓸 수 있어요.</p></div>';
+    notice.innerHTML='<div class="ic">'+ICON.SPARK+'</div><div><b>다시 돌아오신 걸 환영해요!</b><p>예전에 쓰던 닉네임 <span style="color:#fff">'+rejoinNick+'</span>를<br>그대로 다시 쓸 수 있어요.</p></div>';
+  }else if(emailState==='neterr'){notice.className='notice';notice.hidden=false;
+    notice.innerHTML='<div class="ic">'+ICON.USER+'</div><div><b>서버에 연결하지 못했어요</b><p>잠시 후 다시 시도해 주세요.</p><div class="acts"><button class="mini" id="retryEmail">다시 확인</button></div></div>';
+    $('#retryEmail').onclick=()=>{emailInfo=null;checkEmail(false)};
   }else notice.hidden=true;
   setRejoin(emailState==='rejoin');
   if(prev!==emailState){
@@ -383,28 +497,35 @@ email.addEventListener('keydown',e=>{if(e.key==='Enter'){email.blur()}});
 function flip(cb,tog){const v=cb.classList.toggle('on');tog.classList.toggle('on',v);cb.classList.remove('pop');void cb.offsetWidth;cb.classList.add('pop');SFX.check(v);if(v)xp(tog);syncStep2()}
 $('#captcha').onclick=()=>flip(capCb,$('#captcha'));
 $('#agree').onclick=e=>{if(e.target.tagName==='A'){SFX.tick();toast('약관 화면은 이 데모에 없어요');return}flip(agCb,$('#agree'))};
-toInfo.onclick=()=>{if(rejoin&&!name.value){name.value=REJOIN.nick}$('#dice').style.display=rejoin?'none':'';go('info');silent=true;validate();silent=false};
+toInfo.onclick=()=>{if(rejoin&&!name.value){name.value=rejoinNick}go('info');silent=true;validate();silent=false};
 
 // ---------- Step 3: nickname / password ----------
 const TAKEN=['gamer123','userverse','admin','운영자'];
 const ADJ=['반짝이는','용감한','졸린','네온','픽셀','우주','말랑한','전설의','수줍은','번개','핑크','배고픈'];
 const NOUN=['고양이','토끼','여우','유니콘','펭귄','용사','마법사','별똥별','젤리','로봇','곰돌이','슬라임'];
 const name=$('#name'),nameBox=$('#nameBox'),nameHelp=$('#nameHelp'),pw=$('#pw'),pwBox=$('#pwBox'),pw2=$('#pw2'),pw2Box=$('#pw2Box'),pw2Bubble=$('#pw2Bubble'),finish=$('#finish');
-let nameOk=false,pwOk=false,matchOk=false,pwTouched=false,pw2Done=false,silent=false;
+const nickAvail=new Map();let nickTimer=null;
+const nickKey=v=>v.toLowerCase()+'|'+(rejoin?email.value.trim().toLowerCase():'');
+function askNick(v){const k=nickKey(v);if(nickAvail.has(k))return;nickAvail.set(k,'pending');clearTimeout(nickTimer);
+  nickTimer=setTimeout(()=>UVAuth.checkNickname(v,rejoin?email.value.trim():null).then(ok=>ok,()=>'error').then(ok=>{nickAvail.set(k,ok);if(name.value.trim().toLowerCase()===v.toLowerCase())validate();else nickAvail.delete(k)}),250)}
+let lastRolled='',nameOk=false,pwOk=false,matchOk=false,pwTouched=false,pw2Done=false,silent=false;
 function q(id,key,state){const s=$(`#${id} [data-q=${key}]`);s.classList.toggle('ok',state==='ok');s.classList.toggle('bad',state==='bad')}
 function validate(){
   const before={nameOk,pwOk,matchOk,nErr:nameBox.classList.contains('err'),pErr:pwBox.classList.contains('err'),mErr:!pw2Bubble.hidden};
   // 닉네임: 2~12자 / 한글·영문·숫자만 / 중복 아님
   const v=name.value.trim(),len=[...v].length,jamo=/[ㄱ-ㅎㅏ-ㅣ]/.test(v);
-  const charsOk=v.length>0&&!/[^가-힣ㄱ-ㅎㅏ-ㅣA-Za-z0-9]/.test(v),lenOk=len>=2&&len<=12,uniqOk=charsOk&&lenOk&&!jamo&&!TAKEN.includes(v.toLowerCase());
+  const charsOk=v.length>0&&!/[^가-힣ㄱ-ㅎㅏ-ㅣA-Za-z0-9]/.test(v),lenOk=len>=2&&len<=12,localOk=charsOk&&lenOk&&!jamo;
+  let avail=localOk?nickAvail.get(nickKey(v)):undefined;if(localOk&&avail===undefined){askNick(v);avail='pending'}
+  const nickPending=localOk&&(avail==='pending'),uniqOk=localOk&&avail===true;
   $('#nameCount').textContent=len+'/12';$('#nameCount').classList.toggle('over',len>12);
   q('nameQuest','len',!v?'':lenOk?'ok':(len>12||(!jamo&&len<2&&!name.matches(':focus')))?'bad':'');
   q('nameQuest','chars',!v?'':charsOk?'ok':'bad');
-  q('nameQuest','uniq',!v||!charsOk||!lenOk||jamo?'':uniqOk?'ok':'bad');
-  nameOk=uniqOk;const nameErr=!!v&&!jamo&&(!charsOk||len>12||(charsOk&&lenOk&&!uniqOk)||(len<2&&!name.matches(':focus')));
-  nameBox.classList.toggle('err',nameErr);nameBox.classList.toggle('ok',nameOk);badge($('#nameBadge'),nameOk?'ok':nameErr?'err':'');
+  q('nameQuest','uniq',!v||!localOk||nickPending||avail==='error'?'':uniqOk?'ok':'bad');
+  nameOk=uniqOk;const nameErr=!!v&&!jamo&&(!charsOk||len>12||(localOk&&avail===false)||(len<2&&!name.matches(':focus')));
+  nameBox.classList.toggle('err',nameErr);nameBox.classList.toggle('ok',nameOk);badge($('#nameBadge'),nameOk?'ok':nameErr?'err':nickPending?'chk':'');
   let msg='';if(nameErr){msg=!charsOk?'공백이나 특수문자는 쓸 수 없어요':len>12?'12자 이하로 입력해 주세요':len<2?'2자 이상 입력해 주세요':'이미 사용 중인 닉네임이에요'}
-  else if(nameOk)msg=rejoin&&v===REJOIN.nick?'예전에 쓰던 닉네임이에요. 다시 만나 반가워요!':'멋진 닉네임이에요!';
+  else if(nickPending)msg='닉네임 확인 중…';else if(avail==='error')msg='중복 확인을 하지 못했어요. 잠시 후 다시 시도해 주세요';
+  else if(nameOk)msg=rejoin&&v===rejoinNick?'예전에 쓰던 닉네임이에요. 다시 만나 반가워요!':'멋진 닉네임이에요!';
   nameHelp.hidden=!msg;nameHelp.className='helper'+(nameOk?' ok':'');nameHelp.style.color=nameErr?'var(--error)':'';nameHelp.innerHTML=(nameOk?ICON.OKC:'')+msg;
   // 비밀번호
   const p=pw.value,r={letter:/[A-Za-z]/.test(p),num:/[0-9]/.test(p),len:p.length>=8};
@@ -414,6 +535,7 @@ function validate(){
   matchOk=!!pw2.value&&pw2.value===p;const mErr=!!pw2.value&&!matchOk&&(pw2Done||pw2.value.length>=p.length);
   pw2Bubble.hidden=!mErr;pw2Box.classList.toggle('err',mErr);pw2Box.classList.toggle('ok',matchOk);badge($('#pw2Badge'),matchOk?'ok':mErr?'err':'');
   finish.disabled=!(nameOk&&pwOk&&matchOk);paintGauge();
+  $('#dice').hidden=!(!name.value||(lastRolled&&name.value===lastRolled)||$('#dice').classList.contains('roll'));
   if(silent)return;
   const errs=[[!before.nErr&&nameErr,nameBox],[!before.pErr&&pwErr,pwBox],[!before.mErr&&mErr,pw2Box]].filter(x=>x[0]);
   if(errs.length){SFX.error();errs.forEach(x=>shake(x[1]))}
@@ -426,22 +548,146 @@ pw2.addEventListener('focus',()=>{if(!pw2.value)pw2Done=false});
 // 닉네임 추천: 슬롯머신처럼 굴린 뒤 멈춤
 function randomNick(){let n;do{n=ADJ[Math.random()*ADJ.length|0]+NOUN[Math.random()*NOUN.length|0];if([...n].length>10)continue;if(Math.random()<.5)n+=(Math.random()*99|0)+1}while([...n].length>12||TAKEN.includes(n));return n}
 $('#dice').onclick=()=>{const d=$('#dice');if(d.disabled)return;d.disabled=true;d.classList.add('roll');nameBox.classList.add('rolling');let k=0;
-  const t=setInterval(()=>{name.value=randomNick();SFX.tick();silent=true;validate();silent=false;if(++k>=9){clearInterval(t);d.disabled=false;d.classList.remove('roll');nameBox.classList.remove('rolling');validate()}},70)};
-finish.onclick=()=>{
-  $('#doneEyebrow').textContent=rejoin?'✦ WELCOME BACK':'✦ STAGE CLEAR';
-  $('#doneTitle').innerHTML=rejoin?'다시 함께하게 돼서<br>기뻐요':'가입이 완료됐어요';
-  $('#doneDesc').innerHTML=rejoin?'그동안 잘 지내셨나요?<br>'+name.value+'님, 다시 환영해요!':name.value+'님,<br>유저버스에 오신 걸 환영해요!';go('done')};
+  const t=setInterval(()=>{name.value=randomNick();SFX.tick();silent=true;validate();silent=false;if(++k>=9){clearInterval(t);lastRolled=name.value;d.disabled=false;d.classList.remove('roll');nameBox.classList.remove('rolling');validate()}},70)};
+let lastSignupEmail='';
+function showDone({nickname,isRejoin,needsConfirm}){
+  $('#doneEyebrow').textContent=isRejoin?'★ WELCOME BACK':'★ STAGE CLEAR';
+  $('#doneTitle').innerHTML=isRejoin?'다시 함께하게 돼서<br>기뻐요':'가입이 완료됐어요';
+  $('#doneDesc').innerHTML=(isRejoin?'그동안 잘 지내셨나요?<br>'+nickname+'님, 다시 환영해요!':nickname+'님,<br>유저버스에 오신 걸 환영해요!')+(needsConfirm?'<br><br>메일함의 인증 링크를 누르면<br>로그인할 수 있어요.':'');go('done')}
+function showSignupErr(t,sub){$('#signupErrTitle').textContent=t;$('#signupErrSub').textContent=sub||'';$('#signupErr').hidden=!t}
+finish.onclick=async()=>{
+  if(finish.disabled)return;finish.disabled=true;finish.textContent='플레이어 등록 중…';showSignupErr('');
+  const nick=name.value.trim(),mail=email.value.trim();
+  const r=await UVAuth.signUp({email:mail,password:pw.value,nickname:nick,country}).catch(()=>({ok:false,error:'network'}));
+  finish.textContent='가입 완료';
+  if(!r.ok){SFX.error();
+    if(r.error==='nickname_taken'){nickAvail.set(nickKey(nick),false);validate();return}
+    const E={exists:['이미 가입된 이메일이에요','로그인 화면에서 로그인해 주세요.'],weak_password:['비밀번호가 너무 쉬워요','다른 비밀번호로 바꿔 주세요.'],rate_limited:['잠시 후 다시 시도해 주세요','요청이 너무 많아요.'],network:['연결이 불안정해요','인터넷 연결을 확인하고 다시 눌러 주세요.']}[r.error]||['가입하지 못했어요','잠시 후 다시 시도해 주세요.'];
+    showSignupErr(E[0],E[1]);shake($('#signupErr'));validate();return}
+  lastSignupEmail=mail;const wasRejoin=rejoin;emailInfo=null;nickAvail.clear();
+  showDone({nickname:nick,isRejoin:wasRejoin,needsConfirm:r.needsConfirm})};
 function burst(){const box=$('#doneBox');for(let i=0;i<18;i++){const c=document.createElement('i');c.className='confetti';const a=Math.random()*Math.PI*2,r=80+Math.random()*90;
   c.style.cssText=`left:50%;top:38%;background:${i%3?'#FF2D95':'#FF7AB8'};--dx:${Math.cos(a)*r}px;--dy:${Math.sin(a)*r}px`;box.appendChild(c);setTimeout(()=>c.remove(),1200)}}
-$$('[data-reset]').forEach(b=>b.onclick=()=>{[name,pw,pw2,email].forEach(i=>i.value='');emailTouched=false;pwTouched=false;pw2Done=false;
-  capCb.classList.remove('on');agCb.classList.remove('on');$$('.tog').forEach(t=>t.classList.remove('on'));silent=true;checkEmail(false);validate();silent=false;go('login')});
+function resetAll(){lastRolled='';resetLogin();showSignupErr('');$('#withdrawConfirm').hidden=true;[name,pw,pw2,email].forEach(i=>i.value='');country='KR';$('#countryFlag').textContent='🇰🇷';$('#countryVal').textContent='대한민국';emailTouched=false;pwTouched=false;pw2Done=false;
+  capCb.classList.remove('on');agCb.classList.remove('on');$$('.tog').forEach(t=>t.classList.remove('on'));if(typeof sheetBack!=='undefined')sheetBack.hidden=true;silent=true;checkEmail(false);validate();silent=false}
+$$('[data-reset]').forEach(b=>b.onclick=()=>{const e=lastSignupEmail;resetAll();go('login');if(e){loginEmail.value=e;syncLogin();setTimeout(()=>loginPw.focus(),350)}});
+
+
+// ---------- 로그인: 비밀번호가 틀렸다고 말하는 타이밍 ----------
+// · 입력하는 동안에는 아무 말도 하지 않는다 (정답은 서버만 안다)
+// · '로그인'을 누르고 서버 답을 받은 뒤에만 알려준다. 이메일과 비밀번호 중 무엇이 틀렸는지는 말하지 않는다
+// · 틀리면 비밀번호 칸만 비우고 다시 포커스, 이메일은 그대로 둔다
+// · 다시 입력을 시작하면 안내는 바로 사라진다
+// · 3번째부터 남은 횟수와 '비밀번호를 잊으셨나요?'를 보여주고, 5번 틀리면 30초 쉬게 한다
+const loginEmail=$('#loginEmail'),loginPw=$('#loginPw'),loginBtn=$('#loginBtn'),loginErr=$('#loginErr'),helpLink=$('#helpLink');
+const MAX_FAILS=5,LOCK_MS=30000;
+let loginFails=0,lockUntil=0,lockTimer=null,loggingIn=false;
+function syncLogin(){const left=lockUntil-Date.now(),locked=left>0;
+  if(!locked&&lockTimer){clearInterval(lockTimer);lockTimer=null;loginFails=0;setLoginErr('')}
+  loginBtn.disabled=loggingIn||locked||!loginEmail.value.trim()||!loginPw.value;
+  loginBtn.textContent=locked?Math.ceil(left/1000)+'초 뒤에 다시 시도할 수 있어요':loggingIn?'확인 중…':'로그인'}
+function setLoginErr(t,sub){$('#loginErrTitle').textContent=t;$('#loginErrSub').textContent=sub||'';loginErr.hidden=!t;$('#loginPwBox').classList.toggle('err',!!t)}
+function setHelpHot(v){helpLink.classList.toggle('hot',v);helpLink.textContent=v?'비밀번호를 잊으셨나요?':'로그인에 문제가 있나요?'}
+function resetLogin(){loginEmail.value='';loginPw.value='';loginFails=0;lockUntil=0;if(lockTimer){clearInterval(lockTimer);lockTimer=null}loggingIn=false;setLoginErr('');setHelpHot(false);syncLogin()}
+function failMessage(n){
+  if(n>=MAX_FAILS)return['로그인 시도가 너무 많아요','30초 뒤에 다시 시도하거나 비밀번호를 재설정해 주세요.'];
+  if(n>=3)return['이메일 또는 비밀번호가 맞지 않아요',(MAX_FAILS-n)+'번 더 틀리면 30초 동안 로그인할 수 없어요.'];
+  return['이메일 또는 비밀번호가 맞지 않아요','대소문자와 한/영 키를 확인해 주세요.']}
+function applyFail(n){loginFails=n;const [t,sub]=failMessage(n);
+  if(n>=MAX_FAILS){lockUntil=Date.now()+LOCK_MS;if(!lockTimer)lockTimer=setInterval(syncLogin,250)}
+  setLoginErr(t,sub);setHelpHot(n>=3);syncLogin()}
+[loginEmail,loginPw].forEach(i=>{i.addEventListener('input',()=>{if(!loginErr.hidden&&!(lockUntil>Date.now()))setLoginErr('');syncLogin()});
+  i.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();doLogin()}})});
+async function doLogin(){if(loginBtn.disabled)return;loggingIn=true;setLoginErr('');syncLogin();
+  const r=await UVAuth.signIn(loginEmail.value,loginPw.value).catch(()=>({ok:false,error:'network'}));
+  loggingIn=false;
+  if(r.ok){loginFails=0;setHelpHot(false);loginPw.value='';syncLogin();enterHub(r.profile);return}
+  SFX.error();shake($('#loginPwBox'));
+  if(r.error==='invalid'){loginPw.value='';applyFail(loginFails+1);loginPw.focus();return}
+  const E={unconfirmed:['메일 인증이 아직 안 됐어요','가입할 때 받은 메일의 링크를 눌러 주세요.'],rate_limited:['잠시 후 다시 시도해 주세요','짧은 시간에 요청이 너무 많았어요.'],network:['연결이 불안정해요','인터넷 연결을 확인하고 다시 눌러 주세요.']}[r.error]||['로그인하지 못했어요','잠시 후 다시 시도해 주세요.'];
+  setLoginErr(E[0],E[1]);syncLogin()}
+loginBtn.onclick=doLogin;
+
+// ---------- 플레이어 허브 (로그인 후) ----------
+const lvBar=$('#lvBar');for(let i=0;i<24;i++){const b=document.createElement('b');if(i<7)b.className='on';lvBar.appendChild(b)}
+function enterHub(p){const c=COUNTRIES.find(x=>x[0]===p.country)||COUNTRIES[0];
+  $('#hubTitle').innerHTML=p.nickname+'님,<br>다시 만나 반가워요';$('#hubNick').textContent=p.nickname;$('#hubEmail').textContent=p.email;$('#hubCountry').textContent=c[1]+' '+c[2];
+  $('#withdrawConfirm').hidden=true;go('hub');SFX.coin()}
+$('#logoutBtn').onclick=async()=>{await UVAuth.signOut();resetAll();go('login');toast('로그아웃했어요')};
+$('#withdrawBtn').onclick=()=>{$('#withdrawConfirm').hidden=false;SFX.error()};
+$('#withdrawNo').onclick=()=>{$('#withdrawConfirm').hidden=true;SFX.tick()};
+$('#withdrawYes').onclick=async()=>{const b=$('#withdrawYes');b.disabled=true;b.textContent='처리 중…';
+  const r=await UVAuth.withdraw().catch(()=>({ok:false}));b.disabled=false;b.textContent='탈퇴하기';
+  if(!r.ok){toast('탈퇴하지 못했어요. 잠시 후 다시 시도해 주세요');return}
+  emailInfo=null;nickAvail.clear();resetAll();go('login');toast('탈퇴했어요. 30일 안에 돌아오면 닉네임을 돌려드려요')};
+
+// ---------- 거주 국가 선택 (게임 메뉴형 바텀시트) ----------
+const COUNTRIES=[['KR','🇰🇷','대한민국','Korea'],['US','🇺🇸','미국','United States'],['JP','🇯🇵','일본','Japan'],['CN','🇨🇳','중국','China'],['TW','🇹🇼','대만','Taiwan'],['HK','🇭🇰','홍콩','Hong Kong'],
+ ['SG','🇸🇬','싱가포르','Singapore'],['VN','🇻🇳','베트남','Vietnam'],['TH','🇹🇭','태국','Thailand'],['PH','🇵🇭','필리핀','Philippines'],['ID','🇮🇩','인도네시아','Indonesia'],['MY','🇲🇾','말레이시아','Malaysia'],
+ ['IN','🇮🇳','인도','India'],['AU','🇦🇺','호주','Australia'],['NZ','🇳🇿','뉴질랜드','New Zealand'],['CA','🇨🇦','캐나다','Canada'],['MX','🇲🇽','멕시코','Mexico'],['BR','🇧🇷','브라질','Brazil'],
+ ['GB','🇬🇧','영국','United Kingdom'],['DE','🇩🇪','독일','Germany'],['FR','🇫🇷','프랑스','France'],['ES','🇪🇸','스페인','Spain'],['IT','🇮🇹','이탈리아','Italy'],['NL','🇳🇱','네덜란드','Netherlands'],
+ ['SE','🇸🇪','스웨덴','Sweden'],['PL','🇵🇱','폴란드','Poland'],['TR','🇹🇷','튀르키예','Türkiye'],['AE','🇦🇪','아랍에미리트','UAE'],['MN','🇲🇳','몽골','Mongolia'],['KZ','🇰🇿','카자흐스탄','Kazakhstan']];
+let country='KR',kbIndex=-1;
+const sheetBack=$('#sheetBack'),clist=$('#clist'),csearch=$('#countrySearch');
+function renderCountries(){const q=csearch.value.trim().toLowerCase();const items=COUNTRIES.filter(c=>!q||c[2].includes(q)||c[3].toLowerCase().includes(q));
+  clist.innerHTML=items.length?items.map(c=>`<button class="citem${c[0]===country?' sel':''}" data-c="${c[0]}" type="button"><span class="flag">${c[1]}</span><span class="nm">${c[2]}</span><span class="en">${c[0]===country?'★ ':''}${c[3].toUpperCase()}</span></button>`).join(''):'<div class="cempty">찾는 나라가 없어요</div>';
+  kbIndex=-1;$$('.citem').forEach(b=>b.onclick=()=>pickCountry(b.dataset.c))}
+function openSheet(){csearch.value='';renderCountries();sheetBack.hidden=false;SFX.page(false);setTimeout(()=>{const s=clist.querySelector('.sel');if(s)s.scrollIntoView({block:'center'});csearch.focus()},60)}
+function closeSheet(){sheetBack.hidden=true;$('#countryBtn').focus({preventScroll:true})}
+function pickCountry(code){const c=COUNTRIES.find(x=>x[0]===code);const changed=code!==country;country=code;$('#countryFlag').textContent=c[1];$('#countryVal').textContent=c[2];
+  SFX.check(true);closeSheet();if(changed)xp($('#countryField'),'+5 XP')}
+$('#countryBtn').onclick=openSheet;$('#sheetClose').onclick=()=>{SFX.tick();closeSheet()};
+sheetBack.addEventListener('click',e=>{if(e.target===sheetBack){SFX.tick();closeSheet()}});
+csearch.addEventListener('input',renderCountries);
+document.addEventListener('keydown',e=>{if(sheetBack.hidden)return;const items=$$('.citem');
+  if(e.key==='Escape'){closeSheet()}
+  else if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();if(!items.length)return;kbIndex=(kbIndex+(e.key==='ArrowDown'?1:-1)+items.length)%items.length;items.forEach((b,i)=>b.classList.toggle('kb',i===kbIndex));items[kbIndex].scrollIntoView({block:'nearest'});SFX.hover()}
+  else if(e.key==='Enter'&&kbIndex>=0&&items[kbIndex]){e.preventDefault();pickCountry(items[kbIndex].dataset.c)}});
+
+
+// ---------- 프로토타입 단계 바로가기 (앱 바깥 패널) ----------
+function setToggles(c,a){capCb.classList.toggle('on',c);$('#captcha').classList.toggle('on',c);agCb.classList.toggle('on',a);$('#agree').classList.toggle('on',a)}
+function fillEmail(v,touched){email.value=v;emailTouched=!!touched;checkEmail(false)}
+function toInfoState(){fillEmail('new@gmail.com');setToggles(true,true);syncStep2()}
+function fillInfo(n,p1,p2,opt={}){name.value=n;pw.value=p1;pw2.value=p2;pwTouched=!!opt.pwTouched;pw2Done=!!opt.pw2Done;silent=true;validate();silent=false}
+const DEMO_PROFILE={email:'sisbhjj@gmail.com',nickname:'시스비',country:'KR'};
+function loginErrScene(n){loginEmail.value='sisbhjj@gmail.com';loginPw.value='';applyFail(n);go('login')}
+const SCENES=[
+ {g:'로그인',s:'login',t:'로그인',run(){go('login')}},
+ {s:'login',t:'비밀번호 1회 오류',run(){loginErrScene(1)}},
+ {s:'login',t:'3회 오류 · 힌트',run(){loginErrScene(3)}},
+ {s:'login',t:'5회 오류 · 30초 대기',run(){loginErrScene(5)}},
+ {g:'회원가입',s:'signup',t:'회원가입 (처음)',run(){go('signup')}},
+ {s:'signup',t:'이메일 형식 오류',run(){fillEmail('abc@',true);setToggles(true,false);syncStep2();go('signup')}},
+ {s:'signup',t:'가입된 이메일',run(){fillEmail('sisbhjj@gmail.com');go('signup')}},
+ {s:'signup',t:'탈퇴 후 재가입',run(){fillEmail('comeback@gmail.com');setToggles(true,true);syncStep2();go('signup')}},
+ {g:'플레이어 정보',s:'info',t:'정보 입력 (처음)',run(){toInfoState();go('info')}},
+ {s:'info',t:'닉네임 추천',run(){toInfoState();name.value=randomNick();lastRolled=name.value;silent=true;validate();silent=false;go('info')}},
+ {s:'info',t:'입력 조건 오류',run(){toInfoState();fillInfo('게이머!','abcd','abcx',{pwTouched:true,pw2Done:true});go('info')}},
+ {s:'info',t:'모두 통과',run(){toInfoState();fillInfo('핑크곰돌이96','abcd1234','abcd1234');go('info')}},
+ {g:'완료',s:'done',t:'가입 완료',run(){showDone({nickname:'핑크곰돌이96',isRejoin:false,needsConfirm:false})}},
+ {g:'로그인 후',s:'hub',t:'플레이어 허브',run(){enterHub(DEMO_PROFILE)}}];
+let sceneIdx=0;
+const sceneList=$('#sceneList');
+sceneList.innerHTML=SCENES.map((s,i)=>(s.g?`<div class="ctrl-group">${s.g}</div>`:'')+`<button class="scene" data-i="${i}"><b>${String(i+1).padStart(2,'0')}</b>${s.t}</button>`).join('');
+function markScene(i){sceneIdx=i;$$('.scene').forEach(b=>b.classList.toggle('on',+b.dataset.i===i));$('#sceneNo').textContent=(i+1)+'/'+SCENES.length;$('#scenePrev').disabled=i===0;$('#sceneNext').disabled=i===SCENES.length-1}
+function jump(i){if(i<0||i>=SCENES.length)return;SFX.init();SFX.quiet(true);jumping=true;resetAll();SCENES[i].run();jumping=false;SFX.quiet(false);SFX.page(i<sceneIdx);if(SCENES[i].s==='done')SFX.success();markScene(i)}
+$$('.scene').forEach(b=>b.onclick=()=>jump(+b.dataset.i));
+$('#scenePrev').onclick=()=>jump(sceneIdx-1);$('#sceneNext').onclick=()=>jump(sceneIdx+1);
+document.addEventListener('keydown',e=>{if(e.target.tagName==='INPUT')return;if(e.key===']')jump(sceneIdx+1);if(e.key==='[')jump(sceneIdx-1)});
+// 앱 안에서 직접 이동해도 패널 표시를 따라가게
+let jumping=false;
+const _go=go;go=function(to,silent){_go(to,silent);if(!jumping&&SCENES[sceneIdx].s!==to)markScene(SCENES.findIndex(x=>x.s===to))};
+markScene(0);
 
 // ---------- hover / press / sound toggle ----------
-const HOV='.btn:not(:disabled),.back,.icon-btn,.link,.tog,.input,.dice,.mini,.lnk,.sound';let lastHov=null,lastT=0;
+const HOV='.scene,.cbtn,.citem,.btn:not(:disabled),.back,.icon-btn,.link,.tog,.input,.dice,.mini,.lnk,.sound';let lastHov=null,lastT=0;
 document.addEventListener('pointerover',e=>{const el=e.target.closest(HOV);if(el&&el!==lastHov){const now=performance.now();if(now-lastT>45){SFX.hover();lastT=now}}lastHov=el});
 document.addEventListener('pointerdown',e=>{SFX.init();const b=e.target.closest('.btn,.back,.link,.mini');if(b&&!b.disabled)SFX.press()},true);
 const sb=$('#soundBtn');sb.onclick=()=>{SFX.init();const v=SFX.toggle();sb.classList.toggle('off',!v);sb.querySelector('span').textContent=v?'사운드 켜짐':'사운드 꺼짐';if(v)SFX.coin()};
-go('login',true);silent=true;validate();silent=false;
+const mb=$('#modeBadge');if(UVAuth.mode==='supabase'){mb.textContent='SUPABASE 연결됨';mb.classList.add('live')}else{mb.textContent='DEMO 모드 · 이 브라우저에만 저장돼요';$('#demoReset').hidden=false}
+$('#demoReset').onclick=async()=>{await UVAuth.reset();emailInfo=null;nickAvail.clear();resetAll();go('login');toast('데모 데이터를 처음 상태로 되돌렸어요')};
+go('login',true);silent=true;validate();silent=false;syncLogin();
 </script>
 </body>
 </html>
